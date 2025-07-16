@@ -15,14 +15,12 @@ export default function Home() {
   return (
    <>
    <LayoutPage>
-    <BannerSlider />
-    <CategorySlider/>
-    <ProductGrid />
-    <NewProduct />
-    <BestSeller />
+      <BannerSlider />
+      <CategorySlider/>
+      <ProductGrid />
+      <NewProduct />
+      <BestSeller />
    </LayoutPage>
-   
-   
    </>
   );
 }

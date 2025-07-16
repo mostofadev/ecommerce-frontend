@@ -70,7 +70,7 @@ const ProductPage = ({ slug }) => {
   const thumbnail = singleProduct.thumbnail;
   const mainImage = images[selectedImageIndex]?.image_path || thumbnail;
 
-  const hasVariants = variants.length > 0;
+  const hasVariants = variants?.length > 0;
 
   // Get unique colors from variants
   const colors = [...new Map(variants.map((v) => [v.color, { code: v.color }])).values()];
@@ -204,7 +204,7 @@ const ProductPage = ({ slug }) => {
               <div>
                 <h3 className="text-xs font-semibold mb-1">Size</h3>
                 <div className="flex gap-2">
-                  {uniqueSizes.length > 0 ? (
+                  {uniqueSizes?.length > 0 ? (
                     uniqueSizes.map((size, idx) => (
                       <button
                         key={idx}

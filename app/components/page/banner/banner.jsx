@@ -31,7 +31,7 @@ export default function BannerSlider() {
   const URL_IMAGE = process.env.NEXT_PUBLIC_STORAGE_URL;
 
   const { banners , loading, error, fetchBannerHandle } = useSettingPageContext();
-  const length = banners.length;
+  const length = banners?.length;
 
   const resetTimeout = () => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);

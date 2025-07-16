@@ -24,7 +24,7 @@ const SidebarItem = ({
                     pathname === child.href || pathname.startsWith(`${child.href}/`)
                   ));
 
-  const hasChildren = childrenItems && childrenItems.length > 0;
+  const hasChildren = childrenItems && childrenItems?.length > 0;
 
   return (
     <li>

@@ -58,7 +58,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
 
         {/* Cart Items */}
         <div className="p-4 overflow-y-auto h-[calc(100%-160px)]">
-          {items.length === 0 ? (
+          {items?.length === 0 ? (
             <p className="text-gray-500 text-sm">Your cart is empty.</p>
           ) : (
             <CartList
@@ -70,7 +70,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
         </div>
 
         {/* Checkout Summary */}
-        {items.length !== 0 ?
+        {items?.length !== 0 ?
         <div className="p-4 border-t border-gray-100 bg-gray-50">
           <div className="flex justify-between items-center">
             {/* Checkout Button */}

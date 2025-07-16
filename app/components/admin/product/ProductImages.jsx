@@ -30,7 +30,7 @@ export default function ProductImages() {
 
 const handleFilesChange = (event) => {
   const newFiles = event.target.files;
-  if (!newFiles || newFiles.length === 0) return;
+  if (!newFiles || newFiles?.length === 0) return;
   const fileArray = Array.from(newFiles);
   setValue("images", [...images, ...fileArray], { shouldValidate: true });
 };

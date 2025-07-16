@@ -5,7 +5,7 @@ import { HiOutlineArrowRight } from "react-icons/hi";
 import OrderHistoryItem from "./OrderHistoryItem";
 
 function OrderHistory({ orders = [] }) {
-  if (!orders.length) {
+  if (!orders?.length) {
     return <p className="text-gray-400 italic">No orders found.</p>;
   }
 
@@ -24,7 +24,7 @@ function OrderHistory({ orders = [] }) {
                 {order.order_number}
               </span>
               <span className="text-gray-500 text-sm ml-2">
-                ({order.items.length} items)
+                ({order.items?.length} items)
               </span>
             </h2>
 

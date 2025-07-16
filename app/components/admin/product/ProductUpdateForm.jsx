@@ -142,7 +142,7 @@ useEffect(() => {
   const handleImagesChange = (e) => {
     const files = Array.from(e.target.files);
     setValue("images", files, { shouldValidate: true });
-    if (files.length) setExistingImageUrls(files.map((file) => URL.createObjectURL(file)));
+    if (files?.length) setExistingImageUrls(files.map((file) => URL.createObjectURL(file)));
   };
 
   const onSubmit = async (data) => {

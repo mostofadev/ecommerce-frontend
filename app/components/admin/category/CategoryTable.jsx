@@ -66,9 +66,7 @@ console.log(categories.slug);
           </tr>
         </TableHeader>
         <TableBody>
-          {Array.isArray(categories) && categories.length > 0 ? (
-            
-            
+          {Array.isArray(categories) && categories?.length > 0 ? (
             categories.map((category) => (
              
               <TableRow key={category.id}>

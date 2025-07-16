@@ -68,7 +68,7 @@ export default function UpdateBannerForm({ id }) {
   const imageWatch = watch("image");
 
   useEffect(() => {
-    if (imageWatch && imageWatch.length > 0) {
+    if (imageWatch && imageWatch?.length > 0) {
       const file = imageWatch[0];
       const reader = new FileReader();
       reader.onloadend = () => setPreview(reader.result);
@@ -89,7 +89,7 @@ export default function UpdateBannerForm({ id }) {
     formData.append("cta_url", data.cta_url || "");
     formData.append("status", data.status ? "1" : "0");
 
-    if (data.image && data.image.length > 0) {
+    if (data.image && data.image?.length > 0) {
       formData.append("image", data.image[0]);
     }
  formData.append("_method", "PUT");

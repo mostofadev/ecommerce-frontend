@@ -40,7 +40,7 @@ export default function BannerForm() {
   });
 const handleImageChange = (e) => {
   const files = e.target.files;
-  if (files && files.length > 0) {
+  if (files && files?.length > 0) {
     setValue("image", files, { shouldValidate: true }); // ✅ FileList পাঠাও
   } else {
     setValue("image", null);
@@ -49,7 +49,7 @@ const handleImageChange = (e) => {
   const imageWatch = watch("image");
 
   useEffect(() => {
-    if (imageWatch && imageWatch.length > 0) {
+    if (imageWatch && imageWatch?.length > 0) {
       const file = imageWatch[0];
       const reader = new FileReader();
       reader.onloadend = () => setPreview(reader.result);

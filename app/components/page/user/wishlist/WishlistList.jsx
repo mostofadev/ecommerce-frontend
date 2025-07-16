@@ -52,7 +52,7 @@ const WishlistPage = () => {
         Your Wishlist
       </h1>
 
-      {wishlist.length === 0 ? (
+      {wishlist?.length === 0 ? (
         <div className="text-center text-gray-500 text-lg">Your wishlist is empty.</div>
       ) : (
         <div className="space-y-6">

@@ -67,16 +67,16 @@ export default function ProductLiveSearch() {
       </div>
 
       {/* Search Result Dropdown */}
-      {(isFocused && (searchLoading || searchResults.length > 0)) && (
+      {(isFocused && (searchLoading || searchResults?.length > 0)) && (
 
         <div className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-lg max-h-72 overflow-y-auto z-50 mt-1">
           
 
-          {!searchLoading && searchResults.length === 0 && (
+          {!searchLoading && searchResults?.length === 0 && (
             <p className="p-4 text-center text-sm text-gray-400">No results found</p>
           )}
 
-          {!searchLoading && searchResults.length > 0 && (
+          {!searchLoading && searchResults?.length > 0 && (
             <ul className="divide-y divide-gray-100">
               {searchResults.map((product) => (
                 <Link key={product.id} href={`/product/${product.slug}`}>

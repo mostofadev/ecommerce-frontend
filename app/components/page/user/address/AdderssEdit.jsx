@@ -52,7 +52,7 @@ export default function AddressUpdate() {
 
   // Set form values when SingleAddress is loaded
   useEffect(() => {
-    if (SingleAddress && Object.keys(SingleAddress).length > 0) {
+    if (SingleAddress && Object.keys(SingleAddress)?.length > 0) {
       console.log('Setting form values with:', SingleAddress);
       reset({
         type: SingleAddress.type || 'shipping',
@@ -135,7 +135,7 @@ export default function AddressUpdate() {
     value: String(u.id),
   }));
 
-  if (!SingleAddress || Object.keys(SingleAddress).length === 0) {
+  if (!SingleAddress || Object.keys(SingleAddress)?.length === 0) {
     return <div>Loading address data...</div>;
   }
 

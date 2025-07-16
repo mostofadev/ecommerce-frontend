@@ -35,7 +35,7 @@ console.log(myOrder);
         <h2 className="text-2xl mb-2">
           My Orders{" "}
           <span className="text-sm text-gray-300">
-            (Your Total Order: {myOrder.length})
+            (Your Total Order: {myOrder?.length})
           </span>
         </h2>
 

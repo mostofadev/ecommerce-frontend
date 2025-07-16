@@ -69,9 +69,9 @@ const MainMenu = () => {
             >
               <HiShoppingBag className="text-[20px]" />
               <span className="text-sm">Cart</span>
-              {items.length > 0 && (
+              {items?.length > 0 && (
                 <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center">
-                  {items.length}
+                  {items?.length}
                 </span>
               )}
             </div>
@@ -109,9 +109,9 @@ const MainMenu = () => {
 
               <div className="relative cursor-pointer" onClick={() => setCartOpen(true)}>
                 <HiShoppingBag className="text-2xl hover:text-blue-600" />
-                {items.length > 0 && (
+                {items?.length > 0 && (
                   <span className="absolute -top-1 -right-2 bg-red-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">
-                    {items.length}
+                    {items?.length}
                   </span>
                 )}
               </div>

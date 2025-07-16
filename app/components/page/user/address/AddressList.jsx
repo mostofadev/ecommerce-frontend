@@ -31,7 +31,7 @@ console.log(addresses);
         //   ))}
         // </div>
         <Loader />
-      ) : addresses.length === 0 ? (
+      ) : addresses?.length === 0 ? (
         <div className="w-full text-center py-8 bg-gray-50 rounded-md border border-gray-200">
           <FiMapPin className="mx-auto text-3xl text-gray-400 mb-3" />
           <h3 className="text-lg font-medium text-gray-700 mb-1">No addresses saved</h3>
