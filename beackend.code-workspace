@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "../beackend"
+		},
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "beackend"
+	}
+}

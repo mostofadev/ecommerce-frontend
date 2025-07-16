@@ -1,0 +1,260 @@
+// "use client";
+
+// import React, { useState } from "react";
+// import { useForm } from "react-hook-form";
+// import { zodResolver } from "@hookform/resolvers/zod";
+// import { loginSchema } from "@/schemas/loginSchema";
+// import UserInput from "../../ui/User/userInput";
+// import FormButton from "../../ui/button/FormBtn";
+// import FormWrapper from "../../ui/form/FormWrapper";
+// import { FiMail, FiLock, FiEye, FiEyeOff } from "react-icons/fi";
+// import Link from "next/link";
+// import { useUserAuthContext } from "@/app/context/UserAuthContext";
+// import GoogleLoginButton from "./GoogleLogin";
+
+// export default function LoginForm() {
+//   const [showPassword, setShowPassword] = useState(false);
+//   const {UserLogin,loading} = useUserAuthContext();
+//   const {
+//     register,
+//     handleSubmit,
+//     formState: { errors, isSubmitting, isValid },
+//   } = useForm({
+//     resolver: zodResolver(loginSchema),
+//     mode: "onChange",
+//     defaultValues: {
+//       email: "",
+//       password: "",
+//     },
+//   });
+
+//   const onSubmit = (data) => {
+  
+//     console.log("user data", data);
+//     const formData = new FormData;
+//      Object.entries(data).forEach(([key, val]) => {
+//       if (val != null) formData.append(key, val);
+//     });
+    
+//     try {
+//     const res =   UserLogin(data)
+//     console.log(res);
+    
+//     } catch (error) {
+      
+//     }
+//   };
+
+//   return (
+//     <div className="flex min-h-screen items-center justify-center bg-gray-100 px-4 sm:px-10">
+//       <FormWrapper
+//         onSubmit={handleSubmit(onSubmit)}
+//         className="w-full max-w-md p-8 sm:p-10 bg-white rounded-2xl shadow-xl space-y-6"
+//       >
+//         <h2 className="text-3xl font-bold text-center text-gray-800">
+//           Welcome Back 👋
+//         </h2>
+//         <p className="text-sm text-center text-gray-500 mb-4">
+//           Login to access your dashboard
+//         </p>
+
+//         {/* Email Input */}
+//         <UserInput
+//           label="Email Address"
+//           type="email"
+//           name="email"
+//           placeholder="your@email.com"
+//           icon={FiMail}
+//           {...register("email")}
+//           errorMessage={errors.email?.message}
+//         />
+        
+//         {/* Password Input */}
+//         <UserInput
+//           label="Password"
+//           name="password"
+//           type={showPassword ? "text" : "password"}
+//           placeholder="••••••••"
+//           icon={FiLock}
+//           {...register("password")}
+//           errorMessage={errors.password?.message}
+//           showPasswordToggle={true}
+//           onToggleShowPassword={() => setShowPassword((p) => !p)}
+//           showPasswordIcon={showPassword ? FiEyeOff : FiEye}
+//         />
+
+//         {/* Submit Button */}
+//         <FormButton
+//           type="submit"
+//           loading={loading || isSubmitting}
+//           disabled={!isValid || loading || isSubmitting}
+//           IsValid={isValid}
+//         >
+//           {loading || isSubmitting ? "Logging in..." : "Sign In"}
+//         </FormButton>
+
+//         {/* Divider */}
+//         <div className="relative text-center text-sm text-gray-400">
+//           <span className="bg-white px-4 z-10 relative">or continue with</span>
+//           <div className="absolute inset-0 top-2 border-t border-gray-300"></div>
+//         </div>
+
+//         {/* Social Logins */}
+//         {/* <div className="flex gap-4 justify-center mt-2">
+//           <button
+//             type="button"
+//             onClick={() => alert("Google Login")}
+//             className="flex items-center justify-center gap-2 w-1/2 py-2.5 border border-gray-300 rounded-lg text-sm text-gray-700 hover:bg-gray-50 transition"
+//           >
+//             <svg
+//               className="w-5 h-5"
+//               viewBox="0 0 533.5 544.3"
+//               xmlns="http://www.w3.org/2000/svg"
+//             >
+//               <path
+//                 d="M533.5 278.4c0-18.7-1.5-36.7-4.4-54.1H272v102.6h146.9c-6.3 33.9-25 62.6-53.5 81.7v67.8h86.4c50.5-46.5 79.7-115 79.7-198z"
+//                 fill="#4285F4"
+//               />
+//               <path
+//                 d="M272 544.3c72.7 0 133.7-24 178.3-65.3l-86.4-67.8c-24.1 16.2-54.9 25.7-91.8 25.7-70.6 0-130.4-47.7-151.8-111.7H29.3v69.8C73.6 492.6 165 544.3 272 544.3z"
+//                 fill="#34A853"
+//               />
+//               <path
+//                 d="M120.2 322.2c-7.1-21-7.1-43.6 0-64.6v-69.8H29.3c-24.5 48.8-24.5 107.3 0 156.1l90.9-21.7z"
+//                 fill="#FBBC04"
+//               />
+//               <path
+//                 d="M272 107.3c39.5 0 75 13.6 103 40.1l77.1-77.1C406 24 344.9 0 272 0 165 0 73.6 51.7 29.3 132.3l90.9 69.8c21.4-64 81.2-111.7 151.8-111.7z"
+//                 fill="#EA4335"
+//               />
+//             </svg>
+//             Google
+//           </button>
+
+//           <button
+//             type="button"
+//             onClick={() => alert("Facebook Login")}
+//             className="flex items-center justify-center gap-2 w-1/2 py-2.5 border border-gray-300 rounded-lg text-sm text-gray-700 hover:bg-gray-50 transition"
+//           >
+//             <svg
+//               className="w-5 h-5"
+//               viewBox="0 0 24 24"
+//               fill="currentColor"
+//               xmlns="http://www.w3.org/2000/svg"
+//             >
+//               <path d="M22.675 0h-21.35C.6 0 0 .6 0 1.325v21.351C0 23.4.6 24 1.325 24h11.495v-9.294H9.691v-3.622h3.129V8.413c0-3.1 1.894-4.788 4.659-4.788 1.325 0 2.466.099 2.798.143v3.243l-1.922.001c-1.506 0-1.797.716-1.797 1.765v2.313h3.59l-.467 3.622h-3.123V24h6.116C23.4 24 24 23.4 24 22.675V1.325C24 .6 23.4 0 22.675 0z" />
+//             </svg>
+//             Facebook
+//           </button>
+//         </div> */}
+//         <div className="">
+//           <GoogleLoginButton />
+//         </div>
+
+//         {/* Footer - Register Link */}
+//         <p className="text-center text-sm text-gray-600 mt-6">
+//           Don&apos;t have an account?{" "}
+//           <Link href="/register" className="text-indigo-600 font-semibold hover:underline">
+//             Register here
+//           </Link>
+//         </p>
+//       </FormWrapper>
+//     </div>
+//   );
+// }
+
+
+// File: LoginPage.jsx
+
+
+
+// "use client"
+// import axios from '../lib/axiosInstance';
+// import userAxios from '../lib/axiosUser';
+// export const UserLoginFetch =async (data,guestToken) => {
+//     console.log('service data' , data);
+   
+//     const response =await axios.post(`/user/login`,data,
+//         {headers: {
+//        "X-Guest-Token":guestToken ,
+//     },}
+//     )
+//     console.log(response);
+    
+//     return response.data
+// }
+
+// export const logoutService = () => {
+//   return userAxios.post("/logout");
+// };
+
+
+
+// import { useRouter } from "next/navigation";
+// import {createContext, useContext, useState} from "react"
+// import {
+//     logoutService,
+//     UserLoginFetch
+// } from "../services/UserAuthServices"
+// const UserContext = createContext()
+
+
+// export const UserAuthProvider = ({children}) => {
+//     const [user, setUser] = useState(null);
+//     const [token,setToken] = useState(null);
+//     const [loading, setLoading] = useState(false);
+//     const [error,setError] = useState(null)
+//     const router = useRouter();
+
+//     const UserLogin =async (data) => {
+//          const gToken = localStorage.getItem('guest_token');
+//      const guestToken= gToken ? gToken : null;
+//      if(gToken){
+//        localStorage.removeItem('guest_token')
+//      }
+//         console.log('context data',data);
+//         setLoading(true)
+//         try {
+//             const response =await UserLoginFetch(data,guestToken)
+//             console.log(response);
+//              localStorage.setItem('user_token', response.token);
+//              localStorage.setItem('user_data', JSON.stringify(response.user));
+//              localStorage.removeItem('guest_token');
+//       setLoading(false);
+//       router.push('/user/profile');
+//             return response;
+//         } catch (error) {
+//             console.error(error)
+//         }finally{
+//             setLoading(false)
+//         }
+//         }
+
+//         const logout = async () => {
+//           try {
+//           await logoutService(); // ✅ service call
+//           localStorage.removeItem("user_token");
+//           localStorage.removeItem("user_data");
+//           setUser(null);
+//           window.location.href = "/login";
+//           } catch (error) {
+//           console.error("Logout failed", error);
+//           }
+//         };
+//         return (
+//             <UserContext.Provider 
+//                 value={{
+//                 user,
+//                 token,
+//                 error,
+//                 loading,
+//                 UserLogin,
+//                 logout
+//             }}>
+//                 {children}
+//             </UserContext.Provider>
+//         )
+// }
+
+// export const useUserAuthContext = () => useContext(UserContext)
+
