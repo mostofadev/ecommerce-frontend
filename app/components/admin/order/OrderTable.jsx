@@ -37,7 +37,7 @@ export default function OrderTable() {
     return <div className="text-center py-10 text-gray-600">Loading orders...</div>;
   }
 
-  if (!orders.length) {
+  if (!orders?.length) {
     return <div className="text-center py-10 text-gray-600">No orders found.</div>;
   }
 

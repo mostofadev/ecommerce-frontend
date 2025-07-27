@@ -3,18 +3,15 @@
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 import FormWrapper from "@/app/components/ui/form/FormWrapper";
 import TextInput from "@/app/components/ui/form/input";
 import FileInput from "@/app/components/ui/form/FileInput";
 import FormButton from "@/app/components/ui/button/FormBtn";
-import { bannerSchema } from "@/schemas/bannerSchema";
-import { useBannerContext } from "@/app/context/BannerContext";
 import Checkbox from "@/app/components/ui/form/Checkbox";
 import { updateBannerSchema } from "@/schemas/bannerupdateSchema";
-import { useRouter } from "next/navigation";
-import AppImage from "@/app/components/ui/Image/AppImage";
+import { useBannerContext } from "@/app/context/BannerContext";
 import { showCustomToast } from "@/app/lib/showCustomToast";
 
 export default function UpdateBannerForm({ id }) {
@@ -22,6 +19,7 @@ export default function UpdateBannerForm({ id }) {
   const { loading, updateBannerHandler, getSingleBannerHandler } = useBannerContext();
   const [preview, setPreview] = useState(null);
   const router = useRouter();
+
   const {
     control,
     register,
@@ -43,7 +41,7 @@ export default function UpdateBannerForm({ id }) {
     },
   });
 
-  // Fetch banner data and reset form
+  // Fetch banner data
   useEffect(() => {
     if (id) {
       getSingleBannerHandler(id).then((res) => {
@@ -57,29 +55,23 @@ export default function UpdateBannerForm({ id }) {
             status: !!data.status,
             image: null,
           });
-
-          setPreview(data.image);
+          setPreview(`${URL_IMAGE}${data.image}`);
         }
       });
     }
   }, [id, getSingleBannerHandler, reset]);
 
-  // Watch for new image upload to show preview
+  // Image preview on change
   const imageWatch = watch("image");
 
   useEffect(() => {
-    if (imageWatch && imageWatch?.length > 0) {
+    if (imageWatch && imageWatch.length > 0) {
       const file = imageWatch[0];
       const reader = new FileReader();
       reader.onloadend = () => setPreview(reader.result);
       reader.readAsDataURL(file);
     }
   }, [imageWatch]);
-
-  const handleImageChange = (e) => {
-    const files = e.target.files;
-    setValue("image", files, { shouldValidate: true });
-  };
 
   const onSubmit = async (data) => {
     const formData = new FormData();
@@ -89,27 +81,27 @@ export default function UpdateBannerForm({ id }) {
     formData.append("cta_url", data.cta_url || "");
     formData.append("status", data.status ? "1" : "0");
 
-    if (data.image && data.image?.length > 0) {
+    // Append image if exists
+    if (data.image instanceof File) {
+      formData.append("image", data.image);
+    } else if (data.image && data.image.length > 0) {
       formData.append("image", data.image[0]);
     }
- formData.append("_method", "PUT");
+
+    formData.append("_method", "PUT");
+
     try {
-        console.log(id);
-        
       const res = await updateBannerHandler(id, formData);
-       console.log(res);
-       if(res.status === true){
+      if (res.status === true) {
         showCustomToast({
           title: "Banner update",
-          message: 'Banner update successfully!',
+          message: "Banner updated successfully!",
           type: "success",
         });
-        return router.push('/admin/setting/banner');
-       }
-     
-      // Optional: success message or redirect
+        router.push("/admin/setting/banner");
+      }
     } catch (err) {
-      
+      console.error("Update failed", err);
     }
   };
 
@@ -126,30 +118,37 @@ export default function UpdateBannerForm({ id }) {
       <Controller
         name="image"
         control={control}
-        render={({ fieldState }) => (
+        render={({ field, fieldState }) => (
           <FileInput
             label="Image"
             accept="image/*,.avif"
             name="image"
-            onChange={handleImageChange}
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) {
+                setPreview(URL.createObjectURL(file));
+                field.onChange(e.target.files); // <-- REQUIRED
+              } else {
+                setPreview(null);
+                field.onChange(null);
+              }
+            }}
             error={fieldState.error?.message}
           />
         )}
       />
 
       {preview && (
-        <AppImage
-          src={`${URL_IMAGE}/${preview}`}
-          width={140}
-          height={140}
-          alt="Image Preview"
-          className="w-full h-full border mt-2 object-cover"
-          rounded="none"
-
-        />
+        <div className="mt-3">
+          <img
+            src={preview}
+            alt="Preview"
+            className="w-32 h-32 object-cover rounded border"
+          />
+        </div>
       )}
 
-      <FormButton type="submit" loading={loading} disabled={!isValid} IsValid = {isValid} >
+      <FormButton type="submit" loading={loading} disabled={!isValid} IsValid={isValid}>
         {loading ? "Updating..." : "Update Banner"}
       </FormButton>
     </FormWrapper>

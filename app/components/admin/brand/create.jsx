@@ -45,9 +45,10 @@ export default function BrandForm() {
     watch,
     setError,
     reset,
-    formState: { errors },
+    formState: { errors ,isValid},
   } = useForm({
     resolver: zodResolver(schema),
+    mode:"onChange",
     defaultValues: {
       name: "",
       slug: "",
@@ -136,7 +137,7 @@ export default function BrandForm() {
         />
       )}
 
-      <FormButton type="submit" loading={loading}>
+      <FormButton type="submit" loading={loading} disabled={!isValid} IsValid = {isValid}>
         Create
       </FormButton>
     </FormWrapper>

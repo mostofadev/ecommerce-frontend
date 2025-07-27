@@ -10,11 +10,12 @@ import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 
 import { useOrderAdmin } from "@/app/context/OrderAdminContext";
+import OrderItemsSection from "./OrderItems";
 
 export default function SingleOrderDetails({ order }) {
   const { updateOrderStatus } = useOrderAdmin();
   const [updating, setUpdating] = useState(false);
-
+ const URL_IMAGE = process.env.NEXT_PUBLIC_STORAGE_URL
   const statusColors = {
     pending: "bg-yellow-100 text-yellow-800",
     confirmed: "bg-blue-100 text-blue-800",
@@ -91,19 +92,28 @@ export default function SingleOrderDetails({ order }) {
         </Card>
 
         {/* Items */}
-        <Card>
+        {/* <Card>
           <CardHeader>
             <CardTitle className="text-xl font-semibold">Order Items ({order.items?.length || 0})</CardTitle>
           </CardHeader>
           <CardContent className="divide-y divide-gray-200">
+            {console.log('image',order)}
             {order.items?.map((item) => (
               <div key={item.id} className="flex items-center gap-6 py-4">
                 <div className="flex-1">
+                  <div className="">
+                    <AppImage 
+                    src={`${URL_IMAGE}${item.product.thumbnail}`}
+                    width={60}
+                    height={60}
+                    rounded="none"
+                    />
+                  </div>
                   <h4 className="text-lg font-semibold text-gray-900">{item.product_name}</h4>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-2 text-sm text-gray-600">
                     <div><strong>Qty:</strong> {item.quantity}</div>
                     <div><strong>SKU:</strong> {item.sku}</div>
-                    {/* <div><strong>Variant:</strong> {item.variant ? Object.entries(item.variant).map(([k, v]) => `${k}: ${v}`).join(", ") : "-"}</div> */}
+                    
                     <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
   <strong>Variant:</strong>
   <span>
@@ -131,7 +141,8 @@ export default function SingleOrderDetails({ order }) {
               </div>
             ))}
           </CardContent>
-        </Card>
+        </Card> */}
+         <OrderItemsSection order={order} />
       </div>
 
       {/* Right Side */}

@@ -65,7 +65,7 @@ if (!banners || banners.length === 0) return null;
           {banners.map((banner) => (
             <div key={banner.id} className="min-w-full h-52 md:h-120 relative">
               <Image
-                src={`${URL_IMAGE}/${banner.image}`}
+                src={`${URL_IMAGE}${banner.image}`}
                 alt={banner.title}
                 fill 
                 className="object-cover"

@@ -56,9 +56,10 @@ export default function UpdateBrandForm({ id }) {
     watch,
     setValue,
     reset,
-    formState: { errors },
+    formState: { errors,isValid },
   } = useForm({
     resolver: zodResolver(schema),
+    mode:"onChange",
     defaultValues: {
       name: "",
       slug: "",
@@ -80,7 +81,7 @@ export default function UpdateBrandForm({ id }) {
         slug: singleBrandGet.slug || "",
         image: undefined,
       });
-      setPreview(`${URL_IMAGE}/${singleBrandGet.image}`);
+      setPreview(`${URL_IMAGE}${singleBrandGet.image}`);
     }
   }, [singleBrandGet, reset]);
 
@@ -172,7 +173,7 @@ export default function UpdateBrandForm({ id }) {
         </div>
       )}
 
-      <FormButton type="submit" loading={loading}>
+      <FormButton type="submit" loading={loading} disabled={!isValid} IsValid = {isValid}>
         Update
       </FormButton>
     </FormWrapper>

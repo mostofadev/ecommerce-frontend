@@ -1,44 +1,36 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
 import { useForm, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { FiUser, FiMail, FiPhone, FiCalendar } from 'react-icons/fi';
+import { useRouter } from 'next/navigation';
 
 import FileInput from '../../ui/form/FileInput';
 import UserInput from '../../ui/User/userInput';
 import { UserSelectInput } from '../../ui/User/userSelectInput';
 import { Button } from '../../admin/order/Button';
-
-// import { useUser } from '@/context/UserContext';
-// import { updateUserProfile } from '@/services/userService';
-
-import {
-  FiUser,
-  FiMail,
-  FiPhone,
-  FiCalendar,
-} from 'react-icons/fi';
-import { useUser } from '@/app/context/UserContext';
 import AppImage from '../../ui/Image/AppImage';
-import { useRouter } from 'next/navigation';
+
+import { useUser } from '@/app/context/UserContext';
+import FormButton from '../../ui/button/FormBtn';
 
 const profileSchema = z.object({
-  name: z.string().min(1),
-  dob: z.string().min(1),
+  name: z.string().min(1, 'Name is required'),
+  dob: z.string().min(1, 'Date of birth is required'),
   gender: z.enum(['male', 'female']),
-  phone: z.string().min(11).max(14),
-  email: z.string().email(),
+  phone: z.string().min(11, 'Minimum 11 digits').max(14, 'Maximum 14 digits'),
 });
 
 export default function UserProfile() {
   const [isEditing, setIsEditing] = useState(false);
   const [profileImage, setProfileImage] = useState(null);
   const [imageFile, setImageFile] = useState(null);
+
+  const { user, information, fetchProfile, updateProfile, loading } = useUser();
   const URL_IMAGE = process.env.NEXT_PUBLIC_STORAGE_URL;
-  const router = useRouter()
-  const {user, information, fetchProfile, updateProfile, loading} = useUser();
+  const router = useRouter();
 
   const {
     register,
@@ -46,9 +38,10 @@ export default function UserProfile() {
     handleSubmit,
     setValue,
     reset,
-    formState: { errors },
+    formState: { errors,isValid },
   } = useForm({
     resolver: zodResolver(profileSchema),
+    mode:"onChange",
     defaultValues: {
       name: '',
       dob: '',
@@ -57,10 +50,11 @@ export default function UserProfile() {
       email: '',
     },
   });
+console.log('user log',user);
 
   useEffect(() => {
     if (user && information) {
-      console.log(information);
+      console.log('info',`${URL_IMAGE}${information.profile_image}`);
       
       reset({
         name: user.name,
@@ -70,27 +64,11 @@ export default function UserProfile() {
         email: user.email,
       });
       if (information.profile_image) {
-        setProfileImage(`${URL_IMAGE}/${information.profile_image}`);
-      }
+      setProfileImage(`${URL_IMAGE}${information.profile_image}`);
+      console.log('img',`${URL_IMAGE}${information.profile_image}`);
+    } 
     }
   }, [user, information, reset]);
-
-  const onSubmit = async (data) => {
-    const formData = new FormData();
-    formData.append('dob', data.dob);
-    formData.append('gender', data.gender);
-    formData.append('mobile', data.phone);
-    formData.append('affiliate_mobile', '');
-    if (imageFile) formData.append('profile_image', imageFile);
-    formData.append('_method', 'PUT');
-    try {
-      await updateProfile(formData);
-      await fetchProfile();
-      setIsEditing(false);
-    } catch (err) {
-      console.error('Update failed:', err);
-    }
-  };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -102,13 +80,28 @@ export default function UserProfile() {
     }
   };
 
- 
-console.log(profileImage);
+  const onSubmit = async (data) => {
+    const formData = new FormData();
+    formData.append('dob', data.dob);
+    formData.append('gender', data.gender);
+    formData.append('mobile', data.phone);
+    formData.append('affiliate_mobile', '');
+    if (imageFile) formData.append('profile_image', imageFile);
+    formData.append('_method', 'PUT');
+
+    try {
+      await updateProfile(formData);
+      await fetchProfile();
+      setIsEditing(false);
+    } catch (err) {
+      console.error('Update failed:', err);
+    }
+  };
+console.log('profileImage',profileImage);
 
   if (loading) return <p className="text-center mt-10">Loading...</p>;
-  //if(!information) return <p onClick={redirectHomePage}></p>
-  return (
 
+  return (
     <div className="flex justify-center px-4 mt-10 bg-gray-50">
       <div className="bg-white rounded-xl p-8 space-y-8 shadow-lg w-full max-w-3xl border border-gray-200">
         <div className="flex justify-between items-center">
@@ -122,25 +115,19 @@ console.log(profileImage);
 
         {/* Profile Image */}
         <div className="flex flex-col md:flex-row items-center gap-8">
-          
-          {information  ?
-          <div className="w-[150px] h-[150px]  overflow-hidden relative ">
-          <AppImage
-              src={information?.profile_image ? `${URL_IMAGE}/${information.profile_image}` : null}
-              alt="Profile"
-              fallback="/default-avatar.png"
-              fill={true}
-              width={200}
-              height={200}
-              ImageClass='object-contain w-[150px] h-[150px] rounded-full'
-              rounded="rounded"
-            />
+          {profileImage && (
+            <div className="w-[150px] h-[150px] overflow-hidden relative">
+              <AppImage
+                src={profileImage}
+                alt="Profile"
+                fill={true}
+                width={150}
+                height={150}
+                ImageClass="object-cover w-[150px] h-[150px] rounded-full"
+                rounded="rounded"
+              />
             </div>
-          :
-          ''
-          } 
-            {/* <img src={profileImage} alt="" /> */}
-          
+          )}
 
           {isEditing && (
             <div className="w-full">
@@ -159,7 +146,8 @@ console.log(profileImage);
               label="Full Name"
               {...register('name')}
               icon={FiUser}
-              disabled
+              disabled={!isEditing}
+              errorMessage={errors.name?.message}
             />
             <UserInput
               label="Date of Birth"
@@ -202,7 +190,11 @@ console.log(profileImage);
               <Button type="button" variant="outline" onClick={() => setIsEditing(false)}>
                 Cancel
               </Button>
-              <Button type="submit">Save Changes</Button>
+
+              {/* <Button type="submit"></Button> */}
+              <FormButton type="submit" loading={loading} disabled={!isValid} IsValid = {isValid}>
+                Save Changes
+              </FormButton>
             </div>
           )}
         </form>

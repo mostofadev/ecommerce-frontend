@@ -167,6 +167,8 @@ export const SubCategoryProvider = ({ children }) => {
       setError(null);
       return res;
     } catch (err) {
+      console.error(err);
+      
       if (err.response && err.response.data && err.response.data.errors) {
         const errorsObj = err.response.data.errors;
         const allErrors = Object.values(errorsObj)

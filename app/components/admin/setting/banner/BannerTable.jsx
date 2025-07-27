@@ -70,7 +70,7 @@ export default function BannerTable() {
               <TableCell>{item.type}</TableCell>
               <TableCell>
                 <AppImage
-                  src={`${URL_IMAGE}/${item.image}`}
+                  src={`${URL_IMAGE}${item.image}`}
                   alt={item.title}
                   width={48}
                   height={48}

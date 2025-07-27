@@ -76,9 +76,9 @@ const FilterMenu = () => {
           >
             <FiSliders className="text-lg" />
             <span className="font-medium">Filters</span>
-            {(filters.selectedCategories.length > 0 || filters.selectedBrands.length > 0 || filters.priceRange.min || filters.priceRange.max) && (
+            {(filters.selectedCategories?.length > 0 || filters.selectedBrands?.length > 0 || filters.priceRange.min || filters.priceRange.max) && (
               <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                {filters.selectedCategories.length + filters.selectedBrands.length + (filters.priceRange.min ? 1 : 0) + (filters.priceRange.max ? 1 : 0)}
+                {filters.selectedCategories?.length + filters.selectedBrands?.length + (filters.priceRange.min ? 1 : 0) + (filters.priceRange.max ? 1 : 0)}
               </span>
             )}
           </button>

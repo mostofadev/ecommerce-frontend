@@ -54,9 +54,10 @@ export default function UpdateCategory({ id }) {
     watch,
     setValue,
     reset,
-    formState: { errors },
+    formState: { errors,isValid },
   } = useForm({
     resolver: zodResolver(schema),
+    onChange:"onChange",
     defaultValues: {
       name: '',
       slug: '',
@@ -177,7 +178,7 @@ console.log(singleCategoryGet);
         </div>
       )}
 
-      <FormButton type="submit" loading={loading}>
+      <FormButton type="submit" loading={loading} disabled={!isValid} IsValid = {isValid}>
         Update
       </FormButton>
     </FormWrapper>

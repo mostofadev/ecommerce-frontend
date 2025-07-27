@@ -17,7 +17,6 @@ import SelectInput from "../../ui/form/SelectInput";
 import { useSubCategoryContext } from "@/app/context/SubCategoryContext";
 import { showCustomToast } from "@/app/lib/showCustomToast";
 
-// ✅ Schema
 const schema = z.object({
   name: z.string().min(1, "Sub-category name is required"),
   slug: z.string().min(1, "Slug is required"),
@@ -31,9 +30,13 @@ const schema = z.object({
   image: z
     .any()
     .refine((file) => file instanceof File, "Image is required")
-    .refine((file) => file.size <= 2 * 1024 * 1024, "Image must be under 2MB")
+    .refine(
+      (file) => file && file.size <= 2 * 1024 * 1024,
+      "Image must be under 2MB"
+    )
     .refine(
       (file) =>
+        file &&
         ["image/jpeg", "image/png", "image/jpg", "image/webp"].includes(file.type),
       "Unsupported file format"
     ),
@@ -59,9 +62,10 @@ export default function SubCategoryForm() {
     setValue,
     watch,
     setError,
-    formState: { errors },
+    formState: { errors,isValid },
   } = useForm({
     resolver: zodResolver(schema),
+    mode: "onChange",
     defaultValues: {
       name: "",
       slug: "",
@@ -162,7 +166,7 @@ console.log(ServerError);
         />
       )}
 
-      <FormButton type="submit" loading={loading}>
+      <FormButton type="submit" loading={loading} disabled={!isValid} IsValid = {isValid}>
         Create
       </FormButton>
     </FormWrapper>

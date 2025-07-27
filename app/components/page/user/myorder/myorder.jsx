@@ -28,7 +28,9 @@ console.log(myOrder);
   useEffect(() => {
     MyOrders("all");
   }, []);
-
+if (!myOrder?.length) {
+    return <p className="text-gray-400 italic">No orders found.</p>;
+  }
   return (
     <>
       <div className="lg:m-6 m-2 flex lg:justify-between lg:flex-row flex-col border-b border-gray-200 pb-6">

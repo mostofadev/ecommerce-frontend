@@ -3,6 +3,7 @@
 import { createContext, useContext, useEffect, useState, useCallback } from "react";
 import { OrderAdminService } from "@/app/services/OrderAdminService";
 import { toast } from "react-hot-toast";
+import { showCustomToast } from "../lib/showCustomToast";
 
 const OrderAdminContext = createContext();
 
@@ -59,8 +60,12 @@ export function OrderAdminProvider({ children }) {
       const res = await OrderAdminService.getSingleOrder(id);
       setSelectedOrder(res);
     } catch (err) {
-      console.error("❌ Failed to fetch order details:", err);
-      toast.error("Failed to fetch order details");
+     
+      showCustomToast({
+        title: "Order Details",
+        message: "Failed to fetch order details",
+        type: "error",
+      });
     }
   };
 
@@ -74,8 +79,12 @@ export function OrderAdminProvider({ children }) {
       toast.success("Order deleted successfully");
       fetchOrders(pagination.current_page);
     } catch (err) {
-      console.error("❌ Failed to delete order:", err);
-      toast.error("Failed to delete order");
+     
+      showCustomToast({
+        title: "Order Delete",
+        message: "Failed to delete order",
+        type: "error",
+      });
     }
   };
 
@@ -83,11 +92,18 @@ export function OrderAdminProvider({ children }) {
   const updateOrderStatus = async (id, newStatus) => {
     try {
       await OrderAdminService.updateStatus(id, newStatus);
-      toast.success(`Status updated to ${newStatus}`);
+      showCustomToast({
+        title: "Order Status",
+        message: "Order Status Update Successfully.",
+        type: "success",
+      });
       fetchOrders(pagination.current_page);
     } catch (err) {
-      console.error("❌ Failed to update status:", err);
-      toast.error("Failed to update status");
+      showCustomToast({
+        title: "Order Update",
+        message: "Failed to update status",
+        type: "error",
+      });
     }
   };
 
@@ -95,12 +111,21 @@ export function OrderAdminProvider({ children }) {
   const createOrder = async (formData) => {
     try {
       const res = await OrderAdminService.createOrder(formData);
-      toast.success("Order created successfully");
+      
+      showCustomToast({
+        title: "Order Created",
+        message: "Order created successfully.",
+        type: "success",
+      });
       fetchOrders(pagination.current_page);
       return res;
     } catch (err) {
-      console.error("❌ Order creation failed:", err);
-      toast.error("Failed to create order");
+      showCustomToast({
+        title: "Order Failed",
+        message: "Failed to create order.",
+        type: "error",
+      });
+      created
       throw err;
     }
   };

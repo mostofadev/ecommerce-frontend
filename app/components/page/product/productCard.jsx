@@ -27,7 +27,7 @@ const URL_IMAGE = process.env.NEXT_PUBLIC_STORAGE_URL;
       {/* Image section with light gray background */}
       <div className="relative  w-full h-[180px] overflow-hidden bg-gray-50 flex items-center justify-center rounded-t-2xl">
         <motion.img
-          src={`${URL_IMAGE}/${product.thumbnail}`}
+          src={`${URL_IMAGE}${product.thumbnail}`}
           alt={product.title}
           className="max-h-full w-auto object-contain transition-transform duration-300"
           initial={{ scale: 1 }}

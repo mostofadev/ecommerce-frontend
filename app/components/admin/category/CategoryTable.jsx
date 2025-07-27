@@ -72,7 +72,6 @@ console.log(categories.slug);
               <TableRow key={category.id}>
                  {console.log('slug g',category.slug)}
                 <TableCell>{category.name}</TableCell>
-                <TableCell>{URL_IMAGE}{category.image}</TableCell>
                 <TableCell>
                   {typeof category.slug === "string"
                     ? category.slug
@@ -86,8 +85,9 @@ console.log(categories.slug);
                       src={`${URL_IMAGE}${category.image}`} 
                       alt={category.name}
                       className="w-10 h-10 object-cover rounded"
-                      width={30}
-                      height={30}
+                      width={50}
+                      height={50}
+                      rounded="none"
                     />
                   ) : (
                     <span>No image</span>

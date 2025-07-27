@@ -253,12 +253,7 @@ const ProductPage = ({ slug }) => {
               quantity={quantity}
               onAddToCart={addToCartHandler}
             />
-            <button
-              className="flex-1 bg-gray-800 hover:bg-gray-900 text-white py-2 rounded-md text-sm transition"
-              type="button"
-            >
-              Buy Now
-            </button>
+            
           </div>
         </div>
       </div>

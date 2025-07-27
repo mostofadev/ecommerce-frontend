@@ -44,9 +44,10 @@ export default function CategoryForm() {
     watch,
     setValue,
     reset,
-    formState: { errors },
+    formState: { errors ,isValid},
   } = useForm({
     resolver: yupResolver(schema),
+    mode: "onChange", 
     defaultValues: {
       name: "",
       slug: "",
@@ -136,7 +137,7 @@ const onSubmit = async (data) => {
         />
       )}
 
-      <FormButton type="submit" loading={loading}>
+      <FormButton type="submit" loading={loading} disabled={!isValid} IsValid = {isValid}>
         Create
       </FormButton>
     </FormWrapper>

@@ -14,7 +14,7 @@ const CartList = ({ items, onRemove, onQuantityChange }) => {
           {/* Product Image */}
           <div className="w-20 h-20 relative rounded overflow-hidden ">
             <Image
-              src={`${URL_IMAGE}/${item.product.thumbnail}`}
+              src={`${URL_IMAGE}${item.product.thumbnail}`}
               alt={item.product.name}
               fill
               className="object-contain"

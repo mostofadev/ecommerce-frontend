@@ -69,11 +69,11 @@ const handlePageChange = (page) => {
             <TableCell>{brand.slug}</TableCell>
             <TableCell>
               <AppImage
-                src={`${URL_IMAGE}/${brand.image}`}
+                src={`${URL_IMAGE}${brand.image}`}
                 alt={brand.slug}
-                width={48}
-                height={48}
-                rounded="full"
+                width={50}
+                height={50}
+                rounded="none"
               />
             </TableCell>
             

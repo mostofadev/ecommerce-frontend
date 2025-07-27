@@ -69,14 +69,13 @@ console.log(subCategories);
               <TableCell>{subCategory.id}</TableCell>
               <TableCell>{subCategory.name}</TableCell>
               <TableCell>{subCategory.slug}</TableCell>
-              {/* <TableCell>{URL_IMAGE}{subCategory.image}</TableCell> */}
               <TableCell>
                 <AppImage
-                  src={`${URL_IMAGE}/${subCategory.image}`}
+                  src={`${URL_IMAGE}${subCategory.image}`}
                   alt={subCategory.slug}
-                  width={48}
-                  height={48}
-                  rounded="full"
+                  width={50}
+                  height={50}
+                  rounded="none"
                 />
               </TableCell>
               <TableCell>{subCategory.category?.name || "N/A"}</TableCell>

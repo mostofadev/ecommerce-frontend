@@ -86,7 +86,7 @@ export default function ProductLiveSearch() {
                 >
                   
                   <AppImage
-                    src={`${URL_IMAGE}/${product.thumbnail}`}
+                    src={`${URL_IMAGE}${product.thumbnail}`}
                     alt={product.name}
                     width={48}
                     height={48}

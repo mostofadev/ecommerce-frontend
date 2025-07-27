@@ -64,7 +64,7 @@ const WishlistPage = () => {
               {/* Image */}
               <div className="relative w-20 h-20 overflow-hidden hover:scale-105 transition">
                 <motion.img
-                  src={`${URL_IMAGE}/${item.product.thumbnail}`}
+                  src={`${URL_IMAGE}${item.product.thumbnail}`}
                   alt={item.product.name}
                   width={80}
                   height={80}

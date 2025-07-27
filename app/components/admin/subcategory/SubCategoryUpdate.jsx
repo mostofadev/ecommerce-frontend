@@ -60,9 +60,10 @@ export default function UpdateSubCategoryForm({ id }) {
     setValue,
     reset,
     setError,
-    formState: { errors },
+    formState: { errors,isValid },
   } = useForm({
     resolver: zodResolver(schema),
+    mode:"onChange",
     defaultValues: {
       name: "",
       slug: "",
@@ -86,7 +87,7 @@ export default function UpdateSubCategoryForm({ id }) {
         category_id: String(singleSubCategory.category_id) || "",
         image: null,
       });
-      setPreview(`${URL_IMAGE}/${singleSubCategory.image}`);
+      setPreview(`${URL_IMAGE}${singleSubCategory.image}`);
     }
   }, [singleSubCategory, reset]);
 
@@ -188,7 +189,7 @@ export default function UpdateSubCategoryForm({ id }) {
         </div>
       )}
 
-      <FormButton type="submit" loading={loading}>
+      <FormButton type="submit" loading={loading} disabled={!isValid} IsValid = {isValid}>
         Update
       </FormButton>
     </FormWrapper>

@@ -15,6 +15,7 @@ import Link from "next/link";
 import PrintIcon from "@mui/icons-material/Print";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
+import Loader from "@/app/components/ui/loader/pageSpinner";
 
 export default function SingleOrderPage() {
   const params = useParams();
@@ -37,9 +38,7 @@ const handlePrint = useReactToPrint({
 
   if (!order) {
     return (
-      <p className="p-10 text-center text-lg font-medium text-gray-600">
-        Loading order...
-      </p>
+     <Loader />
     );
   }
 
