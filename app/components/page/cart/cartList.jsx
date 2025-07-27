@@ -3,6 +3,7 @@ import { FaTrash } from "react-icons/fa";
 import QuantitySelector from "../product/single/ProductQuantitySelector";
 const CartList = ({ items, onRemove, onQuantityChange }) => {
   const URL_IMAGE = process.env.NEXT_PUBLIC_STORAGE_URL;
+console.log('hello',items);
 
   return (
     <div className="space-y-4 ">
@@ -50,6 +51,7 @@ const CartList = ({ items, onRemove, onQuantityChange }) => {
             <div className="mt-2 flex items-center gap-4">
               <QuantitySelector
                 initialQuantity={item.quantity}
+                stock={item.variant.quantity}
                 onChange={(newQty) => onQuantityChange(item.id, newQty)}
               />
               <div className="text-sm font-semibold text-gray-800">
