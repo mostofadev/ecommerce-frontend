@@ -10,6 +10,7 @@ const QuantitySelector = ({ stock = 10, initialQuantity = 1, onChange }) => {
     setQuantity(initialQuantity);
   }, [initialQuantity]);
 
+
   const handleChange = (value) => {
     const newQuantity = Math.min(stock, Math.max(1, value));
     setQuantity(newQuantity);

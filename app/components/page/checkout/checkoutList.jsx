@@ -50,7 +50,7 @@ console.log(items);
             {/* Product Image */}
             <div className="w-20 h-20 relative rounded overflow-hidden">
               <Image
-                src={`${URL_IMAGE}/${item.product.thumbnail}`}
+                src={`${URL_IMAGE}${item.product.thumbnail}`}
                 alt={item.product.name}
                 fill
                 className="object-contain"
@@ -70,14 +70,14 @@ console.log(items);
                     Color:
                     <span
                       className="w-4 h-4 rounded-full border"
-                      style={{ backgroundColor: item.variant.color }}
-                      title={item.variant.color}
+                      style={{ backgroundColor: item.variant?.color }}
+                      title={item.variant?.color}
                     ></span>
                   </span>
                 )}
                 {item.variant?.size && (
                   <span>
-                    Size: <span className="font-medium">{item.variant.size}</span>
+                    Size: <span className="font-medium">{item.variant?.size}</span>
                   </span>
                 )}
               </div>
@@ -86,6 +86,7 @@ console.log(items);
               <div className="mt-2 flex items-center gap-4">
                 <QuantitySelector
                   initialQuantity={item.quantity}
+                  stock={item.variant?.quantity}
                   onChange={(newQty) => onQuantityChange(item.id, newQty)}
                 />
                 <div className="text-sm font-semibold text-gray-800">
