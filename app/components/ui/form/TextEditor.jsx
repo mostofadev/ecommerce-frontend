@@ -9,9 +9,9 @@ export default function TextEditor({
   value,
   onChange,
   height = 300,
-  
+
   error = "",
-  errors= "",
+  errors = "",
   ...rest
 }) {
   const errorMessage = Array.isArray(error) ? error[0] : error;
@@ -33,9 +33,23 @@ export default function TextEditor({
             height,
             menubar: false,
             plugins: [
-              "advlist", "autolink", "lists", "link", "image", "charmap", "preview",
-              "anchor", "searchreplace", "visualblocks", "code", "fullscreen",
-              "insertdatetime", "media", "table", "help", "wordcount"
+              "advlist",
+              "autolink",
+              "lists",
+              "link",
+              "image",
+              "charmap",
+              "preview",
+              "anchor",
+              "searchreplace",
+              "visualblocks",
+              "code",
+              "fullscreen",
+              "insertdatetime",
+              "media",
+              "table",
+              "help",
+              "wordcount",
             ],
             toolbar:
               "undo redo | formatselect | bold italic underline strikethrough | " +

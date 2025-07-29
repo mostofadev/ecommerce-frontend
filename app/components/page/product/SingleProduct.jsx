@@ -71,6 +71,7 @@ const ProductPage = ({ slug }) => {
   const mainImage = images[selectedImageIndex]?.image_path || thumbnail;
 
   const hasVariants = variants?.length > 0;
+console.log('variant',hasVariants);
 
   // Get unique colors from variants
   const colors = [...new Map(variants.map((v) => [v.color, { code: v.color }])).values()];

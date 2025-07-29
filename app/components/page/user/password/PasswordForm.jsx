@@ -7,6 +7,7 @@ import UserInput from "@/app/components/ui/User/userInput";
 import { Button } from "@/app/components/admin/order/Button";
 
 import { FiLock, FiShield, FiUnlock, FiEye, FiEyeOff } from "react-icons/fi";
+import FormButton from "@/app/components/ui/button/FormBtn";
 
 export default function PasswordForm() {
   const { hasPassword, changePassword, checkPasswordStatus } = useUser();
@@ -14,8 +15,10 @@ export default function PasswordForm() {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
-  } = useForm();
+    formState: { errors,isValid},
+  } = useForm(
+   
+  );
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(null);
@@ -50,8 +53,8 @@ export default function PasswordForm() {
   };
 
   return (
-    <div className="flex justify-center px-4 mt-10 bg-gray-50">
-      <div className="bg-white rounded-xl p-8 space-y-8 shadow-lg w-full max-w-2xl border border-gray-200">
+    <div className="flex justify-center lg:px-4 mt-10 ">
+      <div className=" rounded-xl lg:p-8 space-y-8  w-full max-w-2xl ">
         <h2 className="text-2xl font-bold text-gray-800">
           {hasPassword ? "Change Password" : "Set Your Password"}
         </h2>
@@ -99,14 +102,25 @@ export default function PasswordForm() {
             onToggleShowPassword={() => setShowConfirm(!showConfirm)}
           />
 
-          <div className="flex justify-end gap-4">
-            <Button type="submit" disabled={loading}>
+          <div className="flex justify-center gap-4">
+            {/* <Button type="submit" disabled={loading}>
               {loading
                 ? "Processing..."
                 : hasPassword
                 ? "Change Password"
                 : "Set Password"}
-            </Button>
+            </Button> */}
+            <FormButton
+              type="submit"
+              ClassName="w-full"
+              loading={loading}
+              disabled={!isValid}
+              IsValid={isValid}
+            >
+            {hasPassword
+                ? "Change Password"
+                : "Set Password"}
+            </FormButton>
           </div>
 
           {message && (

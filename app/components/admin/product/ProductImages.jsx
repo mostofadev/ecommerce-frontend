@@ -11,11 +11,13 @@ export default function ProductImages() {
   const [previews, setPreviews] = useState([]);
 
   useEffect(() => {
-    const newPreviews = images.map((image) => {
-      if (typeof image === "string") return image;
-      if (image instanceof File) return URL.createObjectURL(image);
-      return null;
-    }).filter(Boolean);
+    const newPreviews = images
+      .map((image) => {
+        if (typeof image === "string") return image;
+        if (image instanceof File) return URL.createObjectURL(image);
+        return null;
+      })
+      .filter(Boolean);
 
     setPreviews(newPreviews);
 
@@ -28,12 +30,12 @@ export default function ProductImages() {
     };
   }, [images]);
 
-const handleFilesChange = (event) => {
-  const newFiles = event.target.files;
-  if (!newFiles || newFiles?.length === 0) return;
-  const fileArray = Array.from(newFiles);
-  setValue("images", [...images, ...fileArray], { shouldValidate: true });
-};
+  const handleFilesChange = (event) => {
+    const newFiles = event.target.files;
+    if (!newFiles || newFiles?.length === 0) return;
+    const fileArray = Array.from(newFiles);
+    setValue("images", [...images, ...fileArray], { shouldValidate: true });
+  };
 
   const removeImage = (indexToRemove) => {
     const updated = images.filter((_, index) => index !== indexToRemove);
@@ -56,7 +58,10 @@ const handleFilesChange = (event) => {
 
           <div className="flex flex-wrap gap-4 mt-4">
             {previews.map((src, index) => (
-              <div key={index} className="relative w-24 h-24 border rounded-md overflow-hidden">
+              <div
+                key={index}
+                className="relative w-24 h-24 border rounded-md overflow-hidden"
+              >
                 <Image
                   src={src}
                   alt={`Preview ${index}`}

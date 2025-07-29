@@ -9,14 +9,14 @@ export default function Page() {
 
   useEffect(() => {
     showCustomToast({
-      title: "Payment Successful",
-      message: "Your payment has been completed successfully.",
-      type: "success",
-    });
+  title: "Order Confirmed",
+  message: "Your order has been placed with Cash on Delivery. Please keep the payment ready.",
+  type: "success",
+});
 
     const timer = setTimeout(() => {
       router.push("/");
-    }, 2000); // ২ সেকেন্ড পর redirect
+    }, 500); 
 
     return () => clearTimeout(timer);
   }, [router]);

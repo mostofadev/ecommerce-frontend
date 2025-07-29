@@ -18,6 +18,7 @@ const URL_IMAGE = process.env.NEXT_PUBLIC_STORAGE_URL;
       setIsFavorite(!isFavorite);
   };
   return (
+    <Link href={`/product/${product.slug}`}>
     <motion.div
   className="relative bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all w-[280px] border border-gray-100"
   whileHover={{ y: -6, scale: 1.01 }}
@@ -26,6 +27,7 @@ const URL_IMAGE = process.env.NEXT_PUBLIC_STORAGE_URL;
 >
       {/* Image section with light gray background */}
       <div className="relative  w-full h-[180px] overflow-hidden bg-gray-50 flex items-center justify-center rounded-t-2xl">
+        
         <motion.img
           src={`${URL_IMAGE}${product.thumbnail}`}
           alt={product.title}
@@ -41,7 +43,7 @@ const URL_IMAGE = process.env.NEXT_PUBLIC_STORAGE_URL;
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
             >
-              <Link href={`/product/${product.slug}`}>
+              
                 <motion.button
                   className="bg-white text-gray-900 text-xs px-3 py-1 rounded-full shadow flex items-center gap-1"
                   whileHover={{ scale: 1.05 }}
@@ -49,7 +51,7 @@ const URL_IMAGE = process.env.NEXT_PUBLIC_STORAGE_URL;
                   <FiEye size={12} />
                   View
                 </motion.button>
-              </Link>
+              
             </motion.div>
           )}
 
@@ -72,7 +74,11 @@ const URL_IMAGE = process.env.NEXT_PUBLIC_STORAGE_URL;
           className="absolute top-3 right-3 p-1.5 bg-white/80 rounded-full backdrop-blur shadow"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
-          onClick={handleWishlist}
+          onClick={(e) => {
+            e.preventDefault(); 
+            e.stopPropagation();
+            handleWishlist();
+          }}
         >
           <FiHeart
             size={14}
@@ -83,14 +89,15 @@ const URL_IMAGE = process.env.NEXT_PUBLIC_STORAGE_URL;
 
       {/* Info section */}
       <div className="p-3">
-        <div className="text-xs text-gray-500 mb-1">{product.brand?.name}</div>
+        
 
         <h3 className="text-sm font-semibold text-gray-800 line-clamp-1 mb-1">
           {product.name}
         </h3>
 
-        <div className="flex items-center gap-1 text-xs text-gray-500 mb-1">
+        <div className="flex justify-between items-center gap-1 text-xs text-gray-500 mb-1">
            <p>{product.sku}</p>
+           <div className="text-xs text-gray-500 mb-1">{product.brand?.name}</div>
         </div>
 
         <div className="flex justify-between items-end mt-2">
@@ -101,21 +108,24 @@ const URL_IMAGE = process.env.NEXT_PUBLIC_STORAGE_URL;
             )}
           </div>
 
-          <motion.button
+          {/* <motion.button
             className="p-2 bg-gray-900 hover:bg-gray-800 text-white rounded-full shadow"
             whileHover={{ scale: 1.08 }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => handleAddToCart({
-              product,
-              variant: null, // Only if product has no variant
-              quantity: 1
+            // onClick={() => handleAddToCart({
+            //   product,
+            //   variant: null, // Only if product has no variant
+            //   quantity: 1
             })}
           >
             <FiShoppingBag size={14} />
-          </motion.button>
+          </motion.button> */}
         </div>
+        
       </div>
+      
     </motion.div>
+    </Link>
   );
 };
 

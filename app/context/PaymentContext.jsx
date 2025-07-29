@@ -1,4 +1,3 @@
-// app/context/PaymentContext.js
 'use client';
 
 import React, { createContext, useContext, useState } from 'react';
@@ -20,11 +19,7 @@ export const PaymentProvider = ({ children }) => {
     });
 
     setLoading(false);
-    console.log(response);
-    console.log(response.redirect_url);
-    console.log(response.type);
-    console.log(response.orderNumber);
-    
+   
     if (response?.status === 'success') {
   const redirectUrl = response?.redirect_url;
 

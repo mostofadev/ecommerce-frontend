@@ -16,7 +16,7 @@ export const CartProvider = ({ children }) => {
   const {pagination,WishlistIndex} = useWishlist()
   
   const fetchCart = async () => {
-    setLoading(true);
+    
     setError(null);
 
     try {
@@ -31,8 +31,6 @@ export const CartProvider = ({ children }) => {
     } catch (err) {
       console.error("❌ Failed to fetch cart:", err);
       setError(err?.response?.data?.message || "Error loading cart");
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -76,7 +74,7 @@ export const CartProvider = ({ children }) => {
   };
 
   const handleUpdateQuantity = async (itemId, quantity) => {
-    setLoading(true);
+   
     setError(null);
 
     try {
@@ -91,9 +89,7 @@ export const CartProvider = ({ children }) => {
     } catch (err) {
       console.error("❌ Quantity update error:", err);
       setError(err?.response?.data?.message || "Error updating quantity");
-    } finally {
-      setLoading(false);
-    }
+    } 
   };
 
   const handleRemoveFromCart = async (itemId) => {

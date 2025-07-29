@@ -86,7 +86,7 @@ console.log(items);
               <div className="mt-2 flex items-center gap-4">
                 <QuantitySelector
                   initialQuantity={item.quantity}
-                  stock={item.variant?.quantity}
+                  stock={item.variant ? item.variant.quantity : item.product.quantity}
                   onChange={(newQty) => onQuantityChange(item.id, newQty)}
                 />
                 <div className="text-sm font-semibold text-gray-800">

@@ -17,6 +17,7 @@ import { UserSelectInput } from '@/app/components/ui/User/userSelectInput';
 import { useLocation } from '../../../../context/LocationContext';
 import { useAddress } from '@/app/context/AddressContext';
 import { useRouter, useParams } from 'next/navigation';
+import Loader from '@/app/components/ui/loader/pageSpinner';
 
 export default function AddressUpdate() {
   const router = useRouter();
@@ -135,8 +136,8 @@ export default function AddressUpdate() {
     value: String(u.id),
   }));
 
-  if (!SingleAddress || Object.keys(SingleAddress)?.length === 0) {
-    return <div>Loading address data...</div>;
+  if (loading) {
+    return <Loader/>;
   }
 
   return (

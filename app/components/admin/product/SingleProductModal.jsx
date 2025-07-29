@@ -53,10 +53,14 @@ export default function SingleProductModal({ product, onClose }) {
 
             <div className="flex gap-4 mt-2">
               {product.new_product ? (
-                <span className="text-xs px-2 py-1 bg-blue-100 text-blue-600 rounded">New</span>
+                <span className="text-xs px-2 py-1 bg-blue-100 text-blue-600 rounded">
+                  New
+                </span>
               ) : null}
               {product.best_seller ? (
-                <span className="text-xs px-2 py-1 bg-yellow-100 text-yellow-600 rounded">Best Seller</span>
+                <span className="text-xs px-2 py-1 bg-yellow-100 text-yellow-600 rounded">
+                  Best Seller
+                </span>
               ) : null}
               <span className="text-xs px-2 py-1 bg-gray-200 rounded capitalize">
                 {product.status}
@@ -87,7 +91,9 @@ export default function SingleProductModal({ product, onClose }) {
             <ul className="text-sm">
               {product.variants.map((variant, index) => (
                 <li key={index}>
-                   Color: <span style={{ color: variant.color }}>{variant.color}</span>, 👕 Size: {variant.size}, 📦 Qty: {variant.quantity}
+                  Color:{" "}
+                  <span style={{ color: variant.color }}>{variant.color}</span>,
+                  👕 Size: {variant.size}, 📦 Qty: {variant.quantity}
                 </li>
               ))}
             </ul>

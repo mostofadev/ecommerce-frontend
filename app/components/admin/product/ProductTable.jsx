@@ -40,7 +40,9 @@ export default function ProductTable() {
   };
 
   const handleDelete = async (id) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this product?");
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this product?"
+    );
     if (!confirmDelete) return;
 
     try {
@@ -85,7 +87,9 @@ export default function ProductTable() {
               <TableCell>
                 <TableActions
                   onView={() => setSelectedProduct(product)}
-                  onEdit={() => router.push(`/admin/product/edit/${product.id}`)}
+                  onEdit={() =>
+                    router.push(`/admin/product/edit/${product.id}`)
+                  }
                   onDelete={() => handleDelete(product.id)}
                 />
               </TableCell>

@@ -30,7 +30,7 @@ export default function HomePage() {
 
   return (
     <section className="bg-white py-3 px-4 sm:px-8 lg:px-16">
-      <h2 className="text-2xl sm:text-3xl font-bold px-4 sm:px-8 lg:px-72 text-gray-800 mb-6 lg:text-left text-center">
+      <h2 className="text-2xl sm:text-3xl font-bold px-4 sm:px-8 lg:px-72 text-gray-800 mb-6 text-center">
         All Product
       </h2>
 

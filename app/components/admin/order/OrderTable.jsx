@@ -47,21 +47,18 @@ export default function OrderTable() {
         <TableHeader>
           <tr>
             <TableHeadCell>Order ID</TableHeadCell>
-            <TableHeadCell>Customer</TableHeadCell>
             <TableHeadCell>Order Date</TableHeadCell>
             <TableHeadCell>Status</TableHeadCell>
             <TableHeadCell>Payment</TableHeadCell>
             <TableHeadCell>Method</TableHeadCell>
             <TableHeadCell>Total</TableHeadCell>
-            <TableHeadCell>Items</TableHeadCell>
             <TableHeadCell>Actions</TableHeadCell>
           </tr>
         </TableHeader>
         <TableBody>
           {orders.map((order) => (
             <TableRow key={order.id}>
-              <TableCell>{order.order_number || order.id}</TableCell>
-              <TableCell>{order.customer_name || order.user?.name}</TableCell>
+              <TableCell>{order.order_number}</TableCell>
               <TableCell>{order.ordered_at?.split("T")[0]}</TableCell>
               <TableCell>
                 <span
@@ -76,7 +73,6 @@ export default function OrderTable() {
               <TableCell className="capitalize">{order.payment_status}</TableCell>
               <TableCell>{order.payment_method}</TableCell>
               <TableCell>৳{order.total}</TableCell>
-              <TableCell>{order.items?.length || 0}</TableCell>
               <TableCell>
                 <TableActions
                   onView={() => router.push(`/admin/order/${order.id}`)}

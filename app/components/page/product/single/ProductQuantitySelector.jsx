@@ -3,7 +3,7 @@
 import { FiMinus, FiPlus } from "react-icons/fi";
 import { useState, useEffect } from "react";
 
-const QuantitySelector = ({ stock = 10, initialQuantity = 1, onChange }) => {
+const QuantitySelector = ({ stock = 1, initialQuantity = 1, onChange }) => {
   const [quantity, setQuantity] = useState(initialQuantity);
 
   useEffect(() => {

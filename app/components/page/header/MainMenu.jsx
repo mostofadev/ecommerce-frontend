@@ -38,11 +38,11 @@ const MainMenu = () => {
       {/* Desktop Menu */}
       <div className="hidden md:block bg-white shadow-sm px-4 md:px-8 lg:px-16 xl:px-32 py-3 relative z-10">
         <div className="flex items-center justify-between gap-6">
-          <div className="text-xl font-bold text-red-600 cursor-pointer">
-            <Link href="/">
-              Rokomari
-            </Link>
-          </div>
+          <div className="text-3xl font-black tracking-tight text-gray-800 hover:text-red-600 transition-colors duration-300">
+              <Link href="/" className="block">
+                Sj<span className="text-yellow-400">-mart</span>
+              </Link>
+            </div>
 
           {/* Search Box */}
           <div className="flex-grow max-w-2xl">
@@ -83,14 +83,19 @@ const MainMenu = () => {
       <div className="md:hidden bg-white shadow-sm px-4 py-3 relative z-10">
         <div className="flex flex-col gap-3">
           <div className="flex justify-between items-center">
-            <button onClick={toggleSidebar}>
+            {/* <button onClick={toggleSidebar}>
               <HiBars3 className="text-gray-700 text-2xl" />
-            </button>
+            </button> */}
 
-            <div className="text-xl font-bold text-red-600">
+            {/* <div className="text-xl font-bold text-red-600">
               <Link href="/">
               Rokomari
             </Link>
+            </div> */}
+            <div className="text-3xl font-black tracking-tight text-gray-800 hover:text-red-600 transition-colors duration-300">
+              <Link href="/" className="block">
+                Sj<span className="text-yellow-400">-mart</span>
+              </Link>
             </div>
 
             <div className="flex items-center space-x-4 text-gray-700">
@@ -125,8 +130,8 @@ const MainMenu = () => {
         </div>
       </div>
 
-      {/* Mobile Sidebar */}
-      <div
+     
+      {/* <div
         className={`fixed top-0 left-0 h-full w-64 bg-white shadow-md transform transition-transform duration-300 z-50 md:hidden ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         }`}
@@ -143,13 +148,10 @@ const MainMenu = () => {
         </div>
 
         <ul className="flex flex-col gap-4 p-4 text-gray-700 text-base">
-          <li className="hover:text-blue-600 cursor-pointer">Home</li>
-          <li className="hover:text-blue-600 cursor-pointer">Categories</li>
-          <li className="hover:text-blue-600 cursor-pointer">Pre Order</li>
-          <li className="hover:text-blue-600 cursor-pointer">Login</li>
-          <li className="hover:text-blue-600 cursor-pointer">Cart</li>
+          <li className="hover:text-blue-600 cursor-pointer"><Link href="/">Home</Link></li>
+          <li className="hover:text-blue-600 cursor-pointer"><Link href="/">Login</Link></li>
         </ul>
-      </div>
+      </div> */}
 
       {/* Overlay */}
       {isSidebarOpen && (

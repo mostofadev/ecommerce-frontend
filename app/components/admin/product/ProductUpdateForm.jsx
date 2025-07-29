@@ -88,11 +88,11 @@ export default function ProductUpdateForm({ productId }) {
     getAllBrand();
     getSingleProduct(productId);
   }, [productId]);
-useEffect(() => {
-  console.log("Watch all values:", watch());
-  console.log("Form Errors:", errors);
-  console.log("Form Valid:", isValid);
-}, [watch(), errors, isValid]);
+  useEffect(() => {
+    console.log("Watch all values:", watch());
+    console.log("Form Errors:", errors);
+    console.log("Form Valid:", isValid);
+  }, [watch(), errors, isValid]);
   useEffect(() => {
     if (singleProduct) {
       reset({
@@ -127,7 +127,8 @@ useEffect(() => {
 
   useEffect(() => {
     let final = price;
-    if (discountType === "percentage") final = price - (price * discountValue) / 100;
+    if (discountType === "percentage")
+      final = price - (price * discountValue) / 100;
     if (discountType === "fixed") final = price - discountValue;
     if (final < 0) final = 0;
     setValue("final_price", final.toFixed(2));
@@ -142,7 +143,8 @@ useEffect(() => {
   const handleImagesChange = (e) => {
     const files = Array.from(e.target.files);
     setValue("images", files, { shouldValidate: true });
-    if (files?.length) setExistingImageUrls(files.map((file) => URL.createObjectURL(file)));
+    if (files?.length)
+      setExistingImageUrls(files.map((file) => URL.createObjectURL(file)));
   };
 
   const onSubmit = async (data) => {
@@ -158,109 +160,247 @@ useEffect(() => {
 
     data.images.forEach((file, i) => formData.append(`images[${i}]`, file));
     data.variants.forEach((variant, i) =>
-      Object.entries(variant).forEach(([k, v]) => formData.append(`variants[${i}][${k}]`, v))
+      Object.entries(variant).forEach(([k, v]) =>
+        formData.append(`variants[${i}][${k}]`, v)
+      )
     );
 
     try {
-    const res =  await updateProductHandler(productId, formData);
-    console.log('res log',res.status);
-    if(res.status === true){
-      showCustomToast({
-        title: "Update Product",
-        message: "Product Update Successfully.",
-        type: "success",
-      });
-     router.push("/admin/product");
-    }
-      
-    } catch (err) {
-
-    }
+      const res = await updateProductHandler(productId, formData);
+      console.log("res log", res.status);
+      if (res.status === true) {
+        showCustomToast({
+          title: "Update Product",
+          message: "Product Update Successfully.",
+          type: "success",
+        });
+        router.push("/admin/product");
+      }
+    } catch (err) {}
   };
 
   return (
     <FormProvider {...methods}>
       <FormWrapper onSubmit={handleSubmit(onSubmit)}>
-        <TextInput label="Name" {...register("name")} error={errors.name?.message || serverError?.name} />
-        <TextInput label="SKU" {...register("sku")} error={errors.sku?.message || serverError?.sku} />
-        <TextInput label="Slug" readOnly {...register("slug")} error={errors.slug?.message || serverError?.slug} />
-        <TextArea label="Description" {...register("description")} error={errors.description?.message || serverError?.description} />
-        <TextEditor label="Summary" name="summary" value={watch("summary")} onChange={(n, c) => setValue(n, c, { shouldValidate: true })} error={errors.summary?.message || serverError?.summary} />
+        <TextInput
+          label="Name"
+          {...register("name")}
+          error={errors.name?.message || serverError?.name}
+        />
+        <TextInput
+          label="SKU"
+          {...register("sku")}
+          error={errors.sku?.message || serverError?.sku}
+        />
+        <TextInput
+          label="Slug"
+          readOnly
+          {...register("slug")}
+          error={errors.slug?.message || serverError?.slug}
+        />
+        <TextArea
+          label="Description"
+          {...register("description")}
+          error={errors.description?.message || serverError?.description}
+        />
+        <TextEditor
+          label="Summary"
+          name="summary"
+          value={watch("summary")}
+          onChange={(n, c) => setValue(n, c, { shouldValidate: true })}
+          error={errors.summary?.message || serverError?.summary}
+        />
 
-        <TextInput label="Price" type="number" {...register("price", { valueAsNumber: true })} error={errors.price?.message} />
-        <TextInput label="Original Price" type="number" {...register("original_price", { valueAsNumber: true })} error={errors.original_price?.message || serverError?.original_price} />
+        <TextInput
+          label="Price"
+          type="number"
+          {...register("price", { valueAsNumber: true })}
+          error={errors.price?.message}
+        />
+        <TextInput
+          label="Original Price"
+          type="number"
+          {...register("original_price", { valueAsNumber: true })}
+          error={errors.original_price?.message || serverError?.original_price}
+        />
 
-        <Controller name="discount_type" control={control} render={({ field }) => (
-          <SelectInput label="Discount Type" options={[
-            { label: "None", value: "none" },
-            { label: "Percentage", value: "percentage" },
-            { label: "Fixed", value: "fixed" },
-          ]} {...field} error={errors.discount_type?.message || serverError?.discount_type} />
-        )} />
+        <Controller
+          name="discount_type"
+          control={control}
+          render={({ field }) => (
+            <SelectInput
+              label="Discount Type"
+              options={[
+                { label: "None", value: "none" },
+                { label: "Percentage", value: "percentage" },
+                { label: "Fixed", value: "fixed" },
+              ]}
+              {...field}
+              error={
+                errors.discount_type?.message || serverError?.discount_type
+              }
+            />
+          )}
+        />
 
         {(discountType === "percentage" || discountType === "fixed") && (
-          <TextInput label="Discount Value" type="number" {...register("discount_value", { valueAsNumber: true })} error={errors.discount_value?.message || serverError?.discount_value} />
+          <TextInput
+            label="Discount Value"
+            type="number"
+            {...register("discount_value", { valueAsNumber: true })}
+            error={
+              errors.discount_value?.message || serverError?.discount_value
+            }
+          />
         )}
 
-        <TextInput label="Final Price" readOnly {...register("final_price")} error={errors.final_price?.message || serverError?.final_price}/>
-        <TextInput label="Quantity" type="number" {...register("quantity", { valueAsNumber: true })} error={errors.quantity?.message || serverError?.quantity} />
+        <TextInput
+          label="Final Price"
+          readOnly
+          {...register("final_price")}
+          error={errors.final_price?.message || serverError?.final_price}
+        />
+        <TextInput
+          label="Quantity"
+          type="number"
+          {...register("quantity", { valueAsNumber: true })}
+          error={errors.quantity?.message || serverError?.quantity}
+        />
 
-        <Controller name="brand_id" control={control} render={({ field }) => (
-          <SelectInput label="Brand" options={formBrands.map((b) => ({ label: b.name, value: String(b.id) }))} {...field} error={errors.brand_id?.message || serverError?.brand_id} />
-        )} />
+        <Controller
+          name="brand_id"
+          control={control}
+          render={({ field }) => (
+            <SelectInput
+              label="Brand"
+              options={formBrands.map((b) => ({
+                label: b.name,
+                value: String(b.id),
+              }))}
+              {...field}
+              error={errors.brand_id?.message || serverError?.brand_id}
+            />
+          )}
+        />
 
-        <Controller name="category_id" control={control} render={({ field }) => (
-          <SelectInput label="Category" options={formCategories.map((c) => ({ label: c.name, value: String(c.id) }))} {...field} error={errors.category_id?.message || serverError?.category_id} />
-        )} />
+        <Controller
+          name="category_id"
+          control={control}
+          render={({ field }) => (
+            <SelectInput
+              label="Category"
+              options={formCategories.map((c) => ({
+                label: c.name,
+                value: String(c.id),
+              }))}
+              {...field}
+              error={errors.category_id?.message || serverError?.category_id}
+            />
+          )}
+        />
 
-        <Controller name="sub_category_id" control={control} render={({ field }) => (
-          <SelectInput label="Subcategory" options={filteredSubCategories.map((s) => ({ label: s.name, value: String(s.id) }))} {...field} error={errors.sub_category_id?.message || serverError?.sub_category_id} />
-        )} />
+        <Controller
+          name="sub_category_id"
+          control={control}
+          render={({ field }) => (
+            <SelectInput
+              label="Subcategory"
+              options={filteredSubCategories.map((s) => ({
+                label: s.name,
+                value: String(s.id),
+              }))}
+              {...field}
+              error={
+                errors.sub_category_id?.message || serverError?.sub_category_id
+              }
+            />
+          )}
+        />
 
-        <FileInput label="Thumbnail" name="thumbnail" accept="image/*" onChange={handleThumbnailChange} error={errors.thumbnail?.message || serverError?.thumbnail} />
-        {existingThumbnailUrl && <img src={existingThumbnailUrl} alt="Existing Thumbnail" className="w-24 h-24" />}
+        <FileInput
+          label="Thumbnail"
+          name="thumbnail"
+          accept="image/*"
+          onChange={handleThumbnailChange}
+          error={errors.thumbnail?.message || serverError?.thumbnail}
+        />
+        {existingThumbnailUrl && (
+          <img
+            src={existingThumbnailUrl}
+            alt="Existing Thumbnail"
+            className="w-24 h-24"
+          />
+        )}
 
-        <FileInput label="Images" name="images" accept="image/*" multiple onChange={handleImagesChange} error={errors.images?.message || serverError?.images} />
+        <FileInput
+          label="Images"
+          name="images"
+          accept="image/*"
+          multiple
+          onChange={handleImagesChange}
+          error={errors.images?.message || serverError?.images}
+        />
         <div className="flex flex-wrap gap-2">
-          {existingImageUrls.map((url, i) => <img key={i} src={url} className="w-24 h-24" />)}
+          {existingImageUrls.map((url, i) => (
+            <img key={i} src={url} className="w-24 h-24" />
+          ))}
         </div>
 
         <VariantMatrix name="variants" />
 
         {/* <CheckboxGroup label="New Product" {...register("new_product")} />
         <CheckboxGroup label="Best Seller" {...register("best_seller")} /> */}
-<div className="flex gap-6">
-  <Controller
-    name="new_product"
-    control={control}
-    defaultValue={false}
-    render={({ field }) => (
-      <CheckboxGroup
-        label="New Product"
-        checked={field.value}
-        onChange={e => field.onChange(e.target.checked)}
-      />
-    )}
-  />
-  <Controller
-    name="best_seller"
-    control={control}
-    defaultValue={false}
-    render={({ field }) => (
-      <CheckboxGroup
-        label="Best Seller"
-        checked={field.value}
-        onChange={e => field.onChange(e.target.checked)}
-      />
-    )}
-  />
-</div>
+        <div className="flex gap-6">
+          <Controller
+            name="new_product"
+            control={control}
+            defaultValue={false}
+            render={({ field }) => (
+              <CheckboxGroup
+                label="New Product"
+                checked={field.value}
+                onChange={(e) => field.onChange(e.target.checked)}
+              />
+            )}
+          />
+          <Controller
+            name="best_seller"
+            control={control}
+            defaultValue={false}
+            render={({ field }) => (
+              <CheckboxGroup
+                label="Best Seller"
+                checked={field.value}
+                onChange={(e) => field.onChange(e.target.checked)}
+              />
+            )}
+          />
+        </div>
 
-        <TextInput label="Meta Title" {...register("meta_title")} error={errors.meta_title?.message || serverError?.meta_title} />
-        <TextArea label="Meta Description" {...register("meta_description")} error={errors.meta_description?.message || serverError?.meta_description} />
-        <TextInput label="Meta Keywords" {...register("meta_keyword")} error={errors.meta_keyword?.message || serverError?.meta_keyword} />
+        <TextInput
+          label="Meta Title"
+          {...register("meta_title")}
+          error={errors.meta_title?.message || serverError?.meta_title}
+        />
+        <TextArea
+          label="Meta Description"
+          {...register("meta_description")}
+          error={
+            errors.meta_description?.message || serverError?.meta_description
+          }
+        />
+        <TextInput
+          label="Meta Keywords"
+          {...register("meta_keyword")}
+          error={errors.meta_keyword?.message || serverError?.meta_keyword}
+        />
 
-        <FormButton type="submit" IsValid={isValid} loading={loading} disabled={!isValid}>
+        <FormButton
+          type="submit"
+          IsValid={isValid}
+          loading={loading}
+          disabled={!isValid}
+        >
           {loading ? "Updating..." : "Update Product"}
         </FormButton>
       </FormWrapper>

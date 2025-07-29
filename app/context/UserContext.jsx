@@ -46,6 +46,7 @@ const [hasPassword, setHasPassword] = useState(null);
   }, []);
   // ✅ 2. Update profile
   const updateProfile = async (formData) => {
+    setLoading(true);
     try {
       const res = await updateUserProfile(formData);
  await fetchProfile()
@@ -62,6 +63,8 @@ const [hasPassword, setHasPassword] = useState(null);
     } catch (error) {
       console.error('Profile update failed:', error);
       throw error;
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -92,7 +95,7 @@ const changePassword = async (data) => {
     const res = await updatePassword(data);
     return res;
   } catch (error) {
-    console.error("Password update failed:", error);
+    console.log("Password update failed:", error);
     throw error;
   }
 };
