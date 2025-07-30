@@ -8,7 +8,7 @@ export default function ClientOnlyWrapper({ children }) {
   return (
     <ClientProvider>
       <Toaster position="top-right" />
-      <ToastContainer position="top-right" autoClose={3000} />
+      <ToastContainer position="top-right" autoClose={300} />
       {children}
     </ClientProvider>
   );

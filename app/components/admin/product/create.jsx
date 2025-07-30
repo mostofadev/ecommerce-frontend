@@ -188,12 +188,18 @@ export default function ProductForm() {
           {...register("description")}
         />
 
-        <TextEditor
+        {/* <TextEditor
           label="Summary"
           name="summary"
           value={watch("summary")}
           onChange={(n, c) => setValue(n, c)}
           error={errors.summary?.message || serverError?.summary}
+        /> */}
+        <TextArea
+          label="Summary"
+          name="summary"
+          error={errors.summary?.message || serverError?.summary}
+          {...register("summary")}
         />
 
         {/* Pricing */}

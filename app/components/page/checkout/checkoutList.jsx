@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { FaTrash } from "react-icons/fa";
 import QuantitySelector from "../product/single/ProductQuantitySelector";
+import CartQuantitySelector from "../product/single/CartQuantitySelector";
+import Link from "next/link";
 
 const CheckoutCart = ({ items, onRemove, onQuantityChange, onSelectionChange }) => {
   const URL_IMAGE = process.env.NEXT_PUBLIC_STORAGE_URL;
@@ -61,7 +63,10 @@ console.log(items);
             {/* Product Details */}
             <div className="flex-1">
               <h4 className="text-sm font-semibold text-gray-800 line-clamp-1">
+                <Link href={`/product/${item.product.slug}`}>
                 {item.product.name}
+                </Link>
+                
               </h4>
 
               <div className="text-xs text-gray-500 flex">
@@ -84,11 +89,7 @@ console.log(items);
 
               {/* Quantity + Price */}
               <div className="mt-2 flex items-center gap-4">
-                <QuantitySelector
-                  initialQuantity={item.quantity}
-                  stock={item.variant ? item.variant.quantity : item.product.quantity}
-                  onChange={(newQty) => onQuantityChange(item.id, newQty)}
-                />
+                <CartQuantitySelector itemId={item.id} />
                 <div className="text-sm font-semibold text-gray-800">
                   ৳{(item.unit_price * item.quantity).toFixed(2)}
                 </div>

@@ -5,14 +5,20 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useCart } from '@/app/context/CartContext';
 import { useWishlist } from '@/app/context/WishlistContext';
+import { useRouter } from 'next/navigation';
 const ProductCard = ({product}) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 const URL_IMAGE = process.env.NEXT_PUBLIC_STORAGE_URL;
-
+  const router = useRouter();
  const { handleAddToCart } = useCart();
  const {WishlistAdd} = useWishlist()
  const handleWishlist =  () => {
+  const token = localStorage.getItem('user_token'); 
+  if (!token) {
+    router.push('/login');
+    return;
+  }
   console.log(product.id);
       WishlistAdd(product.id)
       setIsFavorite(!isFavorite);

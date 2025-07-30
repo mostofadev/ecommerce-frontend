@@ -12,6 +12,7 @@ export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState(null);
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [cartLoading, setCartLoading] = useState(false);
   const [error, setError] = useState(null);
   const {pagination,WishlistIndex} = useWishlist()
   
@@ -74,7 +75,8 @@ export const CartProvider = ({ children }) => {
   };
 
   const handleUpdateQuantity = async (itemId, quantity) => {
-   
+   console.log('big pro',quantity);
+setCartLoading(true);
     setError(null);
 
     try {
@@ -89,7 +91,9 @@ export const CartProvider = ({ children }) => {
     } catch (err) {
       console.error("❌ Quantity update error:", err);
       setError(err?.response?.data?.message || "Error updating quantity");
-    } 
+    } finally {
+      setCartLoading(false);
+    }
   };
 
   const handleRemoveFromCart = async (itemId) => {
@@ -119,6 +123,7 @@ export const CartProvider = ({ children }) => {
         cart,
         items,
         loading,
+        cartLoading,
         error,
         fetchCart,
         handleAddToCart,

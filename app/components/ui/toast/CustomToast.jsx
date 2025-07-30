@@ -84,7 +84,7 @@ const CustomToast = ({
           className={`h-full ${currentStyle.border.replace("border-", "bg-")}`}
           style={{
             width: t.visible ? "100%" : "0%",
-            transition: `width ${t.ttl || 4000}ms linear`,
+            transition: `width ${t.ttl || 1000}ms linear`,
           }}
         />
       </div>

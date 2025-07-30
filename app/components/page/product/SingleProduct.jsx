@@ -12,7 +12,7 @@ import Loader from "../../ui/loader/pageSpinner";
 import parse from "html-react-parser";
 import AddToCart from "../../ui/button/AddToCart";
 import { useWishlist } from "@/app/context/WishlistContext";
-import { notFound } from "next/navigation";
+import { notFound, useRouter } from "next/navigation";
 import NotFound from "@/app/not-found";
 const fallback = "/image/fallback.png";
 
@@ -29,13 +29,11 @@ const ProductPage = ({ slug }) => {
 
   const { handleAddToCart } = useCart();
   const { singleProduct, loading, error, getSingleProduct } = useHomeProductContext();
+  const router = useRouter();
+  const { WishlistAdd } = useWishlist();
 
-  const {WishlistAdd} = useWishlist()
- 
-  // Fetch product on slug change
   useEffect(() => {
     getSingleProduct(slug);
-    // reset selections on slug change
     setSelectedColor(null);
     setSelectedSize(null);
     setSelectedVariant(null);
@@ -43,7 +41,6 @@ const ProductPage = ({ slug }) => {
   }, [slug]);
  console.log(error);
  
-  // Update selected variant when color and size selected
   useEffect(() => {
     if (selectedColor && selectedSize && singleProduct?.variants) {
       const match = singleProduct.variants.find(
@@ -56,15 +53,19 @@ const ProductPage = ({ slug }) => {
   }, [selectedColor, selectedSize, singleProduct]);
 
   const handleWishlist =  () => {
+    const token = localStorage.getItem('user_token'); 
+    if (!token) {
+      router.push('/login');
+      return;
+    }
        WishlistAdd(singleProduct.id)
        setWishlisted(!wishlisted);
    };
   if (loading) return <Loader />;
    if (!singleProduct) {
-   return NotFound(); // ⛔ Only call when it's really not found
+   return NotFound(); 
   }
   
-// if (error || (!loading && !singleProduct)) return notFound();
   const images = singleProduct.images || [];
   const variants = singleProduct.variants || [];
   const thumbnail = singleProduct.thumbnail;
@@ -73,18 +74,14 @@ const ProductPage = ({ slug }) => {
   const hasVariants = variants?.length > 0;
 console.log('variant',hasVariants);
 
-  // Get unique colors from variants
   const colors = [...new Map(variants.map((v) => [v.color, { code: v.color }])).values()];
 
-  // Sizes available for selected color
   const availableSizes = selectedColor
     ? variants.filter((v) => v.color === selectedColor).map((v) => v.size)
     : [];
 
-  // Unique sizes for selected color
   const uniqueSizes = [...new Set(availableSizes)];
 
-  // Handler wrapper to pass to AddToCart component
   const addToCartHandler = () => {
     handleAddToCart({
       product: singleProduct,

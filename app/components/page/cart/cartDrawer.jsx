@@ -61,11 +61,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
           {items?.length === 0 ? (
             <p className="text-gray-500 text-sm">Your cart is empty.</p>
           ) : (
-            <CartList
-              items={items}
-              onRemove={handleRemoveFromCart}
-              onQuantityChange={handleUpdateQuantity}
-            />
+            <CartList />
           )}
         </div>
 
