@@ -203,12 +203,18 @@ export default function ProductUpdateForm({ productId }) {
           {...register("description")}
           error={errors.description?.message || serverError?.description}
         />
-        <TextEditor
+        {/* <TextEditor
           label="Summary"
           name="summary"
           value={watch("summary")}
           onChange={(n, c) => setValue(n, c, { shouldValidate: true })}
           error={errors.summary?.message || serverError?.summary}
+        /> */}
+        <TextArea
+          label="Summary"
+          name="summary"
+          error={errors.summary?.message || serverError?.summary}
+          {...register("summary")}
         />
 
         <TextInput
