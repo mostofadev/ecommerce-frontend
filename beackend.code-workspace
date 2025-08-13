@@ -6,8 +6,5 @@
 		{
 			"path": "."
 		}
-	],
-	"settings": {
-		"liveServer.settings.multiRootWorkspaceName": "beackend"
-	}
+	]
 }

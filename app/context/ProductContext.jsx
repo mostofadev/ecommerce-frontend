@@ -183,8 +183,7 @@ export const ProductProvider = ({ children }) => {
   const getSingleProduct = async (id) => {
     try {
       const data = await SingleProduct(id);
-      console.log(data);
-      
+      console.log(data);  
       setSingleProduct(data);
       return data;
     } catch (err) {
