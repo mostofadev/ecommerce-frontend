@@ -32,14 +32,12 @@ export default function SubCategoryTable() {
   useEffect(() => {
     getAllSubCategories(currentPage);
   }, [currentPage]);
-console.log(subCategories);
 
   const handlePageChange = (page) => {
     if (page >= 1 && page <= pagination.last_page) {
       setCurrentPage(page);
     }
   };
-console.log(subCategories);
 
   const handleDelete = (id) => {
     if (confirm("Are you sure to delete this sub-category?")) {

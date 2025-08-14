@@ -1,24 +1,22 @@
-'use client';
-import { createContext, useContext, useState } from 'react';
+"use client";
+import { createContext, useContext, useState } from "react";
 import {
   fetchFormCategories,
   fetchFormSubCategories,
   fetchFormBrands,
-
   AllSubCategory,
   createSubCategory,
   deleteSubCategory,
   updateSubCategory,
   SingleSubCategory,
-} from '../services/subCategoryServices';
-import { showCustomToast } from '../lib/showCustomToast';
+} from "../services/subCategoryServices";
+import { showCustomToast } from "../lib/showCustomToast";
 const SubCategoryContext = createContext();
 
 export const SubCategoryProvider = ({ children }) => {
   const [formCategories, setFormCategories] = useState([]);
   const [formSubCategories, setFormSubCategories] = useState([]);
   const [formBrands, setFormBrands] = useState([]);
-
   const [subCategories, setSubCategories] = useState([]);
   const [singleSubCategory, setSingleSubCategory] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -29,12 +27,12 @@ export const SubCategoryProvider = ({ children }) => {
     per_page: 10,
   });
   const [error, setError] = useState(null);
-   const getAllCategories = async () => {
+  const getAllCategories = async () => {
     try {
       const res = await fetchFormCategories();
       setFormCategories(res.data || []);
     } catch (err) {
-      console.error("Failed to fetch categories", err);
+      setError("Failed to fetch categories");
     }
   };
 
@@ -43,18 +41,16 @@ export const SubCategoryProvider = ({ children }) => {
       const res = await fetchFormSubCategories();
       setFormSubCategories(res.data || []);
     } catch (err) {
-      console.error("Failed to fetch subcategories", err);
+      setError("Failed to fetch subcategories");
     }
   };
 
   const getAllBrand = async () => {
     try {
       const res = await fetchFormBrands();
-     // console.log(res);
-      
       setFormBrands(res.data || []);
     } catch (err) {
-      console.error("Failed to fetch brands", err);
+      setError("Failed to fetch brands");
     }
   };
   const getAllSubCategories = async (page = 1) => {
@@ -88,14 +84,12 @@ export const SubCategoryProvider = ({ children }) => {
 
       setError(null);
     } catch (err) {
-      console.error(err);
-      setError('Failed to load sub-categories');
+      setError("Failed to load sub-categories");
     } finally {
       setLoading(false);
     }
   };
 
-  // ➕ Create Sub Category
   const createSubCategoryHandler = async (formData) => {
     setLoading(true);
     try {
@@ -104,31 +98,29 @@ export const SubCategoryProvider = ({ children }) => {
       setError(null);
       return res;
     } catch (err) {
-      console.log(err);
-
-    if (err.response && err.response.data && err.response.data.errors) {
-      
-      const errorsObj = err.response.data.errors;
-      const allErrors = Object.values(errorsObj)
-        .flat()
-        .join(", ");
-      setError(allErrors);
-      showCustomToast({
-        title: "Validation Error",
-        message: allErrors,
-        type: "error",
-      });
-    } else if (err.response && err.response.data && err.response.data.message) {
-   
-      setError(err.response.data.message);
-    } else {
-      setError("Something went wrong");
-      showCustomToast({
-        title: "Error",
-        message: 'Something went wrong',
-        type: "error",
-      });
-    }
+      if (err.response && err.response.data && err.response.data.errors) {
+        const errorsObj = err.response.data.errors;
+        const allErrors = Object.values(errorsObj).flat().join(", ");
+        setError(allErrors);
+        showCustomToast({
+          title: "Validation Error",
+          message: allErrors,
+          type: "error",
+        });
+      } else if (
+        err.response &&
+        err.response.data &&
+        err.response.data.message
+      ) {
+        setError(err.response.data.message);
+      } else {
+        setError("Something went wrong");
+        showCustomToast({
+          title: "Error",
+          message: "Something went wrong",
+          type: "error",
+        });
+      }
     } finally {
       setLoading(false);
     }
@@ -142,15 +134,14 @@ export const SubCategoryProvider = ({ children }) => {
       setError(null);
       showCustomToast({
         title: "Sub-Category delete",
-        message: 'Sub-Category delete successfully!',
+        message: "Sub-Category delete successfully!",
         type: "success",
       });
     } catch (err) {
-      console.error(err);
-      setError('Failed to delete sub-category');
+      setError("Failed to delete sub-category");
       showCustomToast({
         title: "Sub-Category delete",
-        message: 'Failed to delete Sub-category!',
+        message: "Failed to delete Sub-category!",
         type: "error",
       });
     } finally {
@@ -158,7 +149,6 @@ export const SubCategoryProvider = ({ children }) => {
     }
   };
 
-  // ✏️ Update Sub Category
   const updateSubCategoryHandler = async (id, formData) => {
     setLoading(true);
     try {
@@ -167,26 +157,26 @@ export const SubCategoryProvider = ({ children }) => {
       setError(null);
       return res;
     } catch (err) {
-      console.error(err);
-      
       if (err.response && err.response.data && err.response.data.errors) {
         const errorsObj = err.response.data.errors;
-        const allErrors = Object.values(errorsObj)
-          .flat()
-          .join(", ");
+        const allErrors = Object.values(errorsObj).flat().join(", ");
         setError(allErrors);
         showCustomToast({
           title: "Validation Error",
           message: allErrors,
           type: "error",
         });
-      } else if (err.response && err.response.data && err.response.data.message) {
+      } else if (
+        err.response &&
+        err.response.data &&
+        err.response.data.message
+      ) {
         setError(err.response.data.message);
       } else {
         setError("");
         showCustomToast({
           title: "Error",
-          message: 'Something went wrong',
+          message: "Something went wrong",
           type: "error",
         });
       }
@@ -195,22 +185,20 @@ export const SubCategoryProvider = ({ children }) => {
     }
   };
 
-  // 🔍 Get Single Sub Category
   const getSingleSubCategory = async (id) => {
     try {
       const data = await SingleSubCategory(id);
       setSingleSubCategory(data);
       return data;
     } catch (err) {
-      console.error(err);
-      setError('Failed to fetch sub-category');
+      setError("Failed to fetch sub-category");
     }
   };
 
   return (
     <SubCategoryContext.Provider
       value={{
-       subCategories,
+        subCategories,
         singleSubCategory,
         loading,
         error,

@@ -15,6 +15,7 @@ import AppImage from '../../ui/Image/AppImage';
 
 import { useUser } from '@/app/context/UserContext';
 import FormButton from '../../ui/button/FormBtn';
+import UserProfileSkeleton from '../../Skeleton/Home/UserProfileSkeleton';
 
 const profileSchema = z.object({
   name: z.string().min(1, 'Name is required'),
@@ -27,11 +28,11 @@ export default function UserProfile() {
   const [isEditing, setIsEditing] = useState(false);
   const [profileImage, setProfileImage] = useState(null);
   const [imageFile, setImageFile] = useState(null);
-
-  const { user, information, fetchProfile, updateProfile, loading } = useUser();
+  
+  const { user, information, fetchProfile, updateProfile, loading ,fetchLoading} = useUser();
   const URL_IMAGE = process.env.NEXT_PUBLIC_STORAGE_URL;
   const router = useRouter();
-
+  const [error,setError] = useState(null)
   const {
     register,
     control,
@@ -50,12 +51,9 @@ export default function UserProfile() {
       email: '',
     },
   });
-console.log('user log',user);
 
   useEffect(() => {
     if (user && information) {
-      console.log('info',`${URL_IMAGE}${information.profile_image}`);
-      
       reset({
         name: user.name,
         dob: information.dob || '',
@@ -65,7 +63,6 @@ console.log('user log',user);
       });
       if (information.profile_image) {
       setProfileImage(`${URL_IMAGE}${information.profile_image}`);
-      console.log('img',`${URL_IMAGE}${information.profile_image}`);
     } 
     }
   }, [user, information, reset]);
@@ -74,7 +71,7 @@ console.log('user log',user);
    const file = e.target.files[0];
     if (file && file.size <= 3 * 1024 * 1024) {
       setImageFile(file);
-      setProfileImage(URL.createObjectURL(file)); // ✅ এটা preview দেখানোর জন্য
+      setProfileImage(URL.createObjectURL(file)); 
     }
   };
 
@@ -92,12 +89,11 @@ console.log('user log',user);
       await fetchProfile();
       setIsEditing(false);
     } catch (err) {
-      console.error('Update failed:', err);
+      setError('Something is wrong')
     }
   };
-console.log('profileImage',profileImage);
 
-  
+  if(fetchLoading) return <UserProfileSkeleton />
   return (
   <div className="flex justify-center px-4 mt-10">
   <div className=" rounded-xl p-6 sm:p-8 space-y-8  w-full max-w-3xl  ">

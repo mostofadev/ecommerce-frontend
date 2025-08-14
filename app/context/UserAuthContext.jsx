@@ -20,7 +20,6 @@ export const UserAuthProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const [hasPassword, setHasPassword] = useState(false);
 
-  // ১. Check Email and Password Existence
   const checkUserEmail = async (email) => {
     setLoading(true);
     setError(null);
@@ -36,7 +35,7 @@ export const UserAuthProvider = ({ children }) => {
     }
   };
 
-  // ২. Send OTP
+  //  Send OTP
   const sendOtpToEmail = async (email) => {
     setLoading(true);
     setError(null);
@@ -50,7 +49,7 @@ export const UserAuthProvider = ({ children }) => {
     }
   };
 
-  // ৩. Login with Password
+  // Login with Password
   const loginWithPwd = async (email, password) => {
     setLoading(true);
     setError(null);
@@ -69,7 +68,7 @@ export const UserAuthProvider = ({ children }) => {
     }
   };
 
-  // ৪. Login with OTP
+  // Login with OTP
   const loginWithOtpCode = async (email, otp) => {
     setLoading(true);
     setError(null);
@@ -88,7 +87,7 @@ export const UserAuthProvider = ({ children }) => {
     }
   };
 
-  // ৫. Logout
+  // Logout
   const logout = async () => {
     setLoading(true);
     setError(null);

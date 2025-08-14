@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
-import { useState, useEffect } from 'react';
+import Image from "next/image";
+import { useState, useEffect } from "react";
 
 export default function FullFillImage({
   src,
-  alt = '',
-  fallback = '/fallback.png',
-  className = '',
-  rounded = 'full', // none | sm | md | lg | full
+  alt = "",
+  fallback = "/fallback.png",
+  className = "",
+  rounded = "full",
   style = {},
   priority = false,
   unoptimized = false,
@@ -27,13 +27,13 @@ export default function FullFillImage({
   };
 
   const roundedMap = {
-    none: '',
-    sm: 'rounded-sm',
-    md: 'rounded-md',
-    lg: 'rounded-lg',
-    full: 'rounded-full',
+    none: "",
+    sm: "rounded-sm",
+    md: "rounded-md",
+    lg: "rounded-lg",
+    full: "rounded-full",
   };
-  const roundedClass = roundedMap[rounded] ?? 'rounded-full';
+  const roundedClass = roundedMap[rounded] ?? "rounded-full";
 
   return (
     <div
@@ -46,7 +46,7 @@ export default function FullFillImage({
           src={imgSrc}
           alt={alt}
           fill
-          style={{ objectFit: 'cover' }}
+          style={{ objectFit: "cover" }}
           className="select-none"
           onError={handleError}
           priority={priority}

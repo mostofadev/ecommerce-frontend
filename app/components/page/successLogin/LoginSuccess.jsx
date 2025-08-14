@@ -12,13 +12,10 @@ export default function LoginSuccess() {
     const token = searchParams.get('token');
 
     if (token) {
-      // ✅ Store token in localStorage
       localStorage.setItem('user_token', token);
-
-      // ✅ Redirect to dashboard or orders page
       router.push('/user/orders');
     }
   }, [searchParams, router]);
 
-  return <Loader />; // ✅ Loading spinner
+  return <Loader />;
 }

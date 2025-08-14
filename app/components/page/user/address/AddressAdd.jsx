@@ -27,8 +27,8 @@ export default function AddressAdd() {
     loadDistricts,
     loadUpazilas,
   } = useLocation();
-  const { error, loading, addAddress } = useAddress();
-
+  const {  loading, addAddress } = useAddress();
+  const [error,setError] = useState(null)
   const defaultValues = {
     type: 'shipping',
     name: '',
@@ -81,7 +81,7 @@ export default function AddressAdd() {
       await addAddress(cleanedData);
       router.push("/user/address");
     } catch (err) {
-      console.error("ঠিকমতো পাঠানো যায়নি", err);
+      setError('something is wrong!')
     }
   };
 

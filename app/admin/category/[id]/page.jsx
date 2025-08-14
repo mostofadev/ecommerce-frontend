@@ -7,7 +7,6 @@ import React from 'react'
 function page() {
     const params = useParams()
     const {id} = params
-    //console.log(id);
     
   return (
     <Layout>

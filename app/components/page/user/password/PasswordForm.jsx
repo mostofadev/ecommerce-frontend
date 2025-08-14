@@ -103,13 +103,6 @@ export default function PasswordForm() {
           />
 
           <div className="flex justify-center gap-4">
-            {/* <Button type="submit" disabled={loading}>
-              {loading
-                ? "Processing..."
-                : hasPassword
-                ? "Change Password"
-                : "Set Password"}
-            </Button> */}
             <FormButton
               type="submit"
               ClassName="w-full"

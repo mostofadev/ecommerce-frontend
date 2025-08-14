@@ -16,7 +16,7 @@ export default function HookSelectInput({
   return (
     <div className="relative w-full">
       <select
-        id={name} // React Hook Form register here
+        id={name}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
         className={`peer w-full rounded-xl px-4 pt-5 pb-2 text-sm border

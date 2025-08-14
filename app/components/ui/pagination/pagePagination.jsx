@@ -4,7 +4,6 @@ import { cn } from "../../../lib/utils";
 export default function pagePagination({ pagination, onPageChange }) {
   const { current_page, last_page } = pagination;
 
-  // তৈরি করব ডায়নামিক পেজ নাম্বার লিস্ট
   const getPageNumbers = () => {
     const pages = [];
     const maxPagesToShow = 5;

@@ -1,12 +1,12 @@
-import React from 'react';
+import React from "react";
 
 export default function SelectInput({
-  name = '',
-  value = '',
+  name = "",
+  value = "",
   onChange = () => {},
   options = [],
-  placeholder = 'Select an option',
-  className = '',
+  placeholder = "Select an option",
+  className = "",
 }) {
   return (
     <div className={`w-full max-w-sm min-w-[200px] ${className}`}>

@@ -1,5 +1,5 @@
-import React from 'react';
-import { Controller } from 'react-hook-form';
+import React from "react";
+import { Controller } from "react-hook-form";
 
 export const CheckboxInput = ({ label, name, control }) => {
   return (
@@ -7,12 +7,12 @@ export const CheckboxInput = ({ label, name, control }) => {
       <Controller
         name={name}
         control={control}
-        defaultValue={false} // ✅ fallback value
+        defaultValue={false}
         render={({ field }) => (
           <input
             type="checkbox"
             id={name}
-            checked={field.value ?? false} // ✅ ensure controlled
+            checked={field.value ?? false}
             onChange={(e) => field.onChange(e.target.checked)}
             className="form-checkbox h-4 w-4 text-blue-600 transition duration-150 ease-in-out"
           />

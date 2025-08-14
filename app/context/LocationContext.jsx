@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from "react";
 import {
   getDivisions,
   getDistrictsByDivision,
   getUpazilasByDistrict,
-} from '../services/LocationServices';
-import { getTokenFromLocal } from '../lib/getTokenFromLocal';
+} from "../services/LocationServices";
+import { getTokenFromLocal } from "../lib/getTokenFromLocal";
 
 const LocationContext = createContext();
 
@@ -15,16 +15,14 @@ export const LocationProvider = ({ children }) => {
   const [districts, setDistricts] = useState([]);
   const [upazilas, setUpazilas] = useState([]);
   const [loading, setLoading] = useState(false);
-
+  const [error, setError] = useState(null);
   const loadDivisions = async () => {
     setLoading(true);
     try {
       const data = await getDivisions();
-      console.log(data);
-      
       setDivisions(data);
     } catch (error) {
-      console.error('Failed to load divisions', error);
+      setError("Failed to load Division");
     } finally {
       setLoading(false);
     }
@@ -36,7 +34,7 @@ export const LocationProvider = ({ children }) => {
       const data = await getDistrictsByDivision(divisionId);
       setDistricts(data);
     } catch (error) {
-      console.error('Failed to load districts', error);
+      setError("Failed to load districts");
     } finally {
       setLoading(false);
     }
@@ -48,7 +46,7 @@ export const LocationProvider = ({ children }) => {
       const data = await getUpazilasByDistrict(districtId);
       setUpazilas(data);
     } catch (error) {
-      console.error('Failed to load upazilas', error);
+      setError("Failed to load upazilas");
     } finally {
       setLoading(false);
     }
@@ -57,7 +55,7 @@ export const LocationProvider = ({ children }) => {
   useEffect(() => {
     const token = getTokenFromLocal();
     if (token) {
-      loadDivisions(); // ✅ Token থাকলেই API call
+      loadDivisions();
     }
   }, []);
 

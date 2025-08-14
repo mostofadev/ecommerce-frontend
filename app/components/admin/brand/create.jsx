@@ -25,19 +25,25 @@ const schema = z.object({
     .refine((file) => file.size <= 2 * 1024 * 1024, "Image must be under 2MB")
     .refine(
       (file) =>
-        ["image/jpeg", "image/png", "image/jpg", "image/webp"].includes(file.type),
+        ["image/jpeg", "image/png", "image/jpg", "image/webp"].includes(
+          file.type
+        ),
       "Unsupported file type"
     ),
 });
 
 // ✅ Slug Generator
 const generateSlug = (text) =>
-  text.toLowerCase().trim().replace(/\s+/g, "-").replace(/[^\w\-]+/g, "");
+  text
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/[^\w\-]+/g, "");
 
 export default function BrandForm() {
   const { CreateBrands, loading } = useBrandContext();
   const [preview, setPreview] = useState(null);
-  const router = useRouter()
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -45,10 +51,10 @@ export default function BrandForm() {
     watch,
     setError,
     reset,
-    formState: { errors ,isValid},
+    formState: { errors, isValid },
   } = useForm({
     resolver: zodResolver(schema),
-    mode:"onChange",
+    mode: "onChange",
     defaultValues: {
       name: "",
       slug: "",
@@ -80,22 +86,18 @@ export default function BrandForm() {
     formData.append("image", data.image);
 
     try {
-    const res =  await CreateBrands(formData);
-    console.log(res);
-    
+      const res = await CreateBrands(formData);
       reset();
       setPreview(null);
-      if(res.status === true){
+      if (res.status === true) {
         showCustomToast({
           title: "Brand created",
-          message: 'Brand created successfully!',
+          message: "Brand created successfully!",
           type: "success",
         });
         router.push("/admin/brand");
       }
-    } catch (error) {
-      
-    }
+    } catch (error) {}
   };
 
   return (
@@ -137,7 +139,12 @@ export default function BrandForm() {
         />
       )}
 
-      <FormButton type="submit" loading={loading} disabled={!isValid} IsValid = {isValid}>
+      <FormButton
+        type="submit"
+        loading={loading}
+        disabled={!isValid}
+        IsValid={isValid}
+      >
         Create
       </FormButton>
     </FormWrapper>

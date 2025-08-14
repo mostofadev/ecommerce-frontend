@@ -19,7 +19,6 @@ export const ProductFilterProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Fetch products whenever filters change
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);

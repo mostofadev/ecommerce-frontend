@@ -20,19 +20,19 @@ export default function LoginPage() {
 
   const router = useRouter();
   const { fetchProfile } = useUser();
-  const { sendOtpToEmail,checkUserEmail,loginWithPwd,loginWithOtpCode } = useUserAuthContext();
+  const { sendOtpToEmail, checkUserEmail, loginWithPwd, loginWithOtpCode } =
+    useUserAuthContext();
 
   const sendOtpEmail = async (email) => {
     try {
-      await sendOtpToEmail(email );
-     
+      await sendOtpToEmail(email);
+
       showCustomToast({
         title: "OTP Successfully send",
         message: "OTP sent to your email",
         type: "success",
       });
     } catch (error) {
-      console.error("Send OTP failed:", error);
       showCustomToast({
         title: "OTP Failed",
         message: "Failed to send OTP",
@@ -54,13 +54,10 @@ export default function LoginPage() {
           setStep("otp");
         }
       } else {
-        // New email, send OTP for signup
         await sendOtpEmail(email);
         setStep("otp");
       }
     } catch (err) {
-      console.error("Email check failed:", err);
-      
       showCustomToast({
         title: "Email check failed",
         message: "Something went wrong",
@@ -95,8 +92,6 @@ export default function LoginPage() {
       await fetchProfile();
       router.push("/user/profile");
     } catch (err) {
-      console.log(err);
-      
       showCustomToast({
         title: "Invalid OTP",
         message: "OTP is incorrect. Please try again.",
@@ -124,8 +119,8 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100 px-4 sm:px-10">
-      <div className="w-full max-w-md p-8 sm:p-10 bg-white rounded-2xl shadow-xl space-y-6">
+    <div className="flex min-h-screen items-center py-6 justify-center bg-gray-100 px-2 sm:px-8">
+      <div className="w-full max-w-md p-4 sm:p-5 bg-white rounded-2xl shadow-md space-y-6">
         <h2 className="text-3xl font-bold text-center text-gray-800">
           Welcome Back 👋
         </h2>

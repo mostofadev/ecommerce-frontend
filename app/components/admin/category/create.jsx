@@ -76,8 +76,6 @@ const onSubmit = async (data) => {
     if (data.image) formData.append("image", data.image);
 
   const res=  await CreateCategory(formData);
-  console.log(res);
-  
     if(res.data.status === true){
       showCustomToast({
         title: "Category created",

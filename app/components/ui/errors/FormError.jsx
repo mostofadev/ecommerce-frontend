@@ -1,8 +1,8 @@
 // ui/form/FormError.jsx
-'use client';
+"use client";
 
-import { AnimatePresence, motion } from 'framer-motion';
-import { FaExclamationCircle } from 'react-icons/fa';
+import { AnimatePresence, motion } from "framer-motion";
+import { FaExclamationCircle } from "react-icons/fa";
 
 export default function FormError({ message }) {
   if (!message) return null;

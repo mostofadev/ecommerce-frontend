@@ -10,15 +10,15 @@ import { motion } from "framer-motion";
 import AddToCart from "@/app/components/ui/button/AddToCart";
 import PagePagination from "@/app/components/ui/pagination/pagePagination";
 import TableActions from "@/app/components/ui/table/TableActions";
+import WishlistSkeleton from "@/app/components/Skeleton/Page/WishlistSkeleton";
 
 const WishlistPage = () => {
   const { wishlist, pagination, loading, error, WishlistIndex, WishlistRemove } = useWishlist();
   const { handleAddToCart } = useCart();
   const URL_IMAGE = process.env.NEXT_PUBLIC_STORAGE_URL;
-
   const [currentPage, setCurrentPage] = useState(1);
   const [loadingId, setLoadingId] = useState(null);
-
+  const [Errors,setErrors] = useState(null)
   useEffect(() => {
     WishlistIndex(currentPage);
   }, [currentPage]);
@@ -30,20 +30,19 @@ const WishlistPage = () => {
   };
 
   const handleAdd = async ({ product, variant, quantity, wishlistId }) => {
-    setLoadingId(wishlistId); // start loading for this item only
+    setLoadingId(wishlistId);
     try {
       await handleAddToCart({ product, variant, quantity });
-      // Optionally remove from wishlist after add
-      // await WishlistRemove(wishlistId);
     } catch (err) {
-      console.error(err);
+       setErrors('something is wrong!')
     } finally {
       setLoadingId(null);
     }
   };
 
-  if (loading) return <Loader />;
+  if (loading) return <WishlistSkeleton />;
   if (error) return <p className="p-4 text-red-500">Error: {error}</p>;
+  if (Errors) return <p className="p-4 text-red-500">Error: {Errors}</p>;
 
   return (
     <section className="max-w-6xl mx-auto px-4 py-12">

@@ -17,9 +17,7 @@ export const PaymentProvider = ({ children }) => {
       order_number: orderNumber,
       payment_method: paymentMethod,
     });
-
     setLoading(false);
-   
     if (response?.status === 'success') {
   const redirectUrl = response?.redirect_url;
 

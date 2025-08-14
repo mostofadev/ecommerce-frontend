@@ -8,7 +8,6 @@ import FormWrapper from '@/app/components/ui/form/FormWrapper';
 import UserInput from '@/app/components/ui/User/userInput';
 import { addressSchema } from '@/schemas/addressSchema';
 
-// Simple SelectInput component matching UserInput style
 export const UserSelectInput = ({ label, options, errorMessage, control, name , disabled = false,}) =>{
   return (
     <div className="flex flex-col space-y-1">

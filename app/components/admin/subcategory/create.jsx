@@ -91,7 +91,6 @@ export default function SubCategoryForm() {
     setValue("image", file, { shouldValidate: true });
     if (file) setPreview(URL.createObjectURL(file));
   };
-console.log(ServerError);
 
   const onSubmit = async (data) => {
     try {
@@ -102,8 +101,6 @@ console.log(ServerError);
       formData.append("image", data.image);
 
      const res = await createSubCategoryHandler(formData);
-      
-      console.log(res);
       if(res.status === true){
         showCustomToast({
           title: "Sub-category created",

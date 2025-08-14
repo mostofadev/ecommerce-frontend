@@ -8,9 +8,8 @@ export default function SelectInput({
   error = "",
   value,
   onChange,
-  ...rest// 👉 এইটা destructure করো
+  ...rest
 }) {
-  
   const [focused, setFocused] = useState(false);
   const showLabelAsFloating = focused || value;
 
@@ -31,7 +30,7 @@ export default function SelectInput({
           appearance-none pr-10
         `}
       >
-        <option value="">-- Select --</option> {/* ✅ default option */}
+        <option value="">-- Select --</option> {}
         {options.map((opt) => (
           <option key={opt.value} value={opt.value}>
             {opt.label}

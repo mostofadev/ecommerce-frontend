@@ -30,8 +30,6 @@ const CartDrawer = ({ isOpen, onClose }) => {
 
   const total = subtotal;
 
-  if (loading) return <Loader />;
-
   return (
     <>
       {/* Overlay */}

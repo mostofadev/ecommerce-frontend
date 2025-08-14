@@ -89,9 +89,6 @@ export default function ProductUpdateForm({ productId }) {
     getSingleProduct(productId);
   }, [productId]);
   useEffect(() => {
-    console.log("Watch all values:", watch());
-    console.log("Form Errors:", errors);
-    console.log("Form Valid:", isValid);
   }, [watch(), errors, isValid]);
   useEffect(() => {
     if (singleProduct) {
@@ -167,7 +164,6 @@ export default function ProductUpdateForm({ productId }) {
 
     try {
       const res = await updateProductHandler(productId, formData);
-      console.log("res log", res.status);
       if (res.status === true) {
         showCustomToast({
           title: "Update Product",

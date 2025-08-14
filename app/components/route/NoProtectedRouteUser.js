@@ -12,9 +12,7 @@ const NoProtectedRouteUser = ({ children }) => {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const token = localStorage.getItem("user_token");;
-      console.log(token);
-      
+      const token = localStorage.getItem("user_token");
       if (token) {
         router.push("/user/orders");
       } else {
@@ -24,7 +22,7 @@ const NoProtectedRouteUser = ({ children }) => {
     }
   }, [router]);
 
-  if (isChecking) return <Loader />; // অথবা loading spinner দেখাতে পারো
+// if (isChecking) return <Loader />; 
 
   return hasToken ? children : null;
 };

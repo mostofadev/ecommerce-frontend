@@ -5,9 +5,8 @@ export const OrderAdminService = {
     const response = await axios.get("/admin/orders", {
       params: { search, status, page },
     });
-    return response.data.data; // full response (with data, meta, links)
+    return response.data.data;
   },
-  
 
   async deleteOrder(id) {
     await axios.delete(`/admin/orders/${id}`);

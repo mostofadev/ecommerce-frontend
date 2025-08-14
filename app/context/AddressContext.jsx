@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect } from "react";
 import {
   fetchSelectAddressUpdate,
   fetchAddressIndex,
@@ -8,15 +8,15 @@ import {
   fetchAddressSingle,
   fetchAddressUpdate,
   fetchAddressRemove,
-} from '../services/AddressServices';
-import { getTokenFromLocal } from '../lib/getTokenFromLocal';
-import { showCustomToast } from '../lib/showCustomToast';
+} from "../services/AddressServices";
+import { getTokenFromLocal } from "../lib/getTokenFromLocal";
+import { showCustomToast } from "../lib/showCustomToast";
 
 const AddressContext = createContext();
 
 export const AddressProvider = ({ children }) => {
   const [addresses, setAddresses] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [SingleAddress, setSingleAddress] = useState([]);
 
@@ -26,7 +26,7 @@ export const AddressProvider = ({ children }) => {
       const data = await fetchAddressIndex();
       setAddresses(data.data);
     } catch (err) {
-      setError(err?.message || 'Failed to load addresses');
+      setError(err?.message || "Failed to load addresses");
     } finally {
       setLoading(false);
     }
@@ -44,30 +44,25 @@ export const AddressProvider = ({ children }) => {
       await loadAddresses();
       return data;
     } catch (err) {
-  const errorMsg =
-    err?.response?.data?.message || 'Failed to add address';
+      const errorMsg = err?.response?.data?.message || "Failed to add address";
+      if (err?.response?.status === 422 && err?.response?.data?.errors) {
+        const firstField = Object.keys(err.response.data.errors)[0];
+        const firstMessage = err.response.data.errors[firstField][0];
 
-  // Laravel validation error হলে সেটা দেখাবে
-  if (err?.response?.status === 422 && err?.response?.data?.errors) {
-    const firstField = Object.keys(err.response.data.errors)[0];
-    const firstMessage = err.response.data.errors[firstField][0];
-
-    showCustomToast({
-      title: "Validation Error",
-      message: firstMessage,
-      type: "error",
-    });
-  } else {
-    showCustomToast({
-      title: "Something Went Wrong",
-      message: errorMsg,
-      type: "error",
-    });
-  }
-
-  setError(errorMsg);
-  //throw err;
-} finally {
+        showCustomToast({
+          title: "Validation Error",
+          message: firstMessage,
+          type: "error",
+        });
+      } else {
+        showCustomToast({
+          title: "Something Went Wrong",
+          message: errorMsg,
+          type: "error",
+        });
+      }
+      setError(errorMsg);
+    } finally {
       setLoading(false);
     }
   };
@@ -79,7 +74,7 @@ export const AddressProvider = ({ children }) => {
       await loadAddresses();
       setSingleAddress(data.data);
     } catch (err) {
-      setError(err?.message || 'Failed to load address');
+      setError(err?.message || "Failed to load address");
       throw err;
     } finally {
       setLoading(false);
@@ -90,7 +85,9 @@ export const AddressProvider = ({ children }) => {
     setLoading(true);
     try {
       const updated = await fetchAddressUpdate(id, updateData);
-      setAddresses((prev) => prev.map((item) => (item.id === id ? updated : item)));
+      setAddresses((prev) =>
+        prev.map((item) => (item.id === id ? updated : item))
+      );
       showCustomToast({
         title: "Update to Address",
         message: "Address Update Successfully.",
@@ -99,7 +96,7 @@ export const AddressProvider = ({ children }) => {
       await loadAddresses();
       return updated;
     } catch (err) {
-      setError(err?.message || 'Failed to update address');
+      setError(err?.message || "Failed to update address");
       showCustomToast({
         title: "Something Is Wrong",
         message: "Something Is Wrong!",
@@ -123,22 +120,21 @@ export const AddressProvider = ({ children }) => {
       });
       await loadAddresses();
     } catch (err) {
-      setError(err?.message || 'Failed to delete address');
+      setError(err?.message || "Failed to delete address");
       throw err;
     } finally {
       setLoading(false);
     }
   };
 
-
   const selectAddressUpdate = async (address_id) => {
-  try {
-    await fetchSelectAddressUpdate(address_id);
-    await loadAddresses(); 
-  } catch (err) {
-    console.error("Failed to select address:", err);
-  }
-};
+    try {
+      await fetchSelectAddressUpdate(address_id);
+      await loadAddresses();
+    } catch (err) {
+      setError(err?.message || "Failed to delete address");
+    }
+  };
   useEffect(() => {
     const token = getTokenFromLocal();
     if (token) {
@@ -158,7 +154,7 @@ export const AddressProvider = ({ children }) => {
         getAddressById,
         updateAddress,
         removeAddress,
-        selectAddressUpdate
+        selectAddressUpdate,
       }}
     >
       {children}

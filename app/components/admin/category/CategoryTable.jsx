@@ -30,8 +30,6 @@ export default function CategoryTable() {
   } = useCategoryContext();
 
   const [currentPage, setCurrentPage] = useState(1);
-console.log(categories);
-
   useEffect(() => {
     getAllCategories(currentPage);
   }, [currentPage]);
@@ -49,7 +47,6 @@ console.log(categories);
       setCurrentPage(page);
     }
   };
-console.log(categories.slug);
 
   if (loading) return <Loader />;
   if (error) return <p className="p-4 text-red-500">Error: {error}</p>;
@@ -68,21 +65,19 @@ console.log(categories.slug);
         <TableBody>
           {Array.isArray(categories) && categories?.length > 0 ? (
             categories.map((category) => (
-             
               <TableRow key={category.id}>
-                 {console.log('slug g',category.slug)}
                 <TableCell>{category.name}</TableCell>
                 <TableCell>
                   {typeof category.slug === "string"
                     ? category.slug
                     : typeof category.slug === "object" && category.slug.slug
-                      ? category.slug.slug
-                      : "No Slug"}
+                    ? category.slug.slug
+                    : "No Slug"}
                 </TableCell>
                 <TableCell>
                   {category.image ? (
-                     <AppImage
-                      src={`${URL_IMAGE}${category.image}`} 
+                    <AppImage
+                      src={`${URL_IMAGE}${category.image}`}
                       alt={category.name}
                       className="w-10 h-10 object-cover rounded"
                       width={50}

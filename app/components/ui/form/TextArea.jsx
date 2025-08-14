@@ -6,10 +6,9 @@ export default function TextArea({
   placeholder,
   rows = 4,
   error = "",
-  errors= "",
+  errors = "",
   ...rest
 }) {
-  // Check if error is an array (Laravel sends array), otherwise use as string
   const errorMessage = Array.isArray(error) ? error[0] : error;
   const errorsMessage = Array.isArray(errors) ? errors[0] : errors;
 
@@ -29,7 +28,11 @@ export default function TextArea({
         rows={rows}
         {...rest}
         className={`border rounded-md px-3 py-2 text-sm text-gray-800 resize-y 
-          ${errorMessage ? "border-red-500 focus:ring-red-500 focus:border-red-500" : "border-gray-300 focus:ring-blue-500 focus:border-blue-500"}
+          ${
+            errorMessage
+              ? "border-red-500 focus:ring-red-500 focus:border-red-500"
+              : "border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+          }
         `}
       />
       {errorMessage && (

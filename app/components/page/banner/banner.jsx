@@ -3,6 +3,8 @@
 import { useSettingPageContext } from "@/app/context/SettingPageContext";
 import Image from "next/image";
 import React, { useState, useEffect, useRef } from "react";
+import MarginSection from "../../Layout/MarginSection";
+import BannerSliderSkeleton from "../../Skeleton/Home/BannerSliderSkeleton";
 
 const arrowIcons = [
   {
@@ -30,20 +32,18 @@ export default function BannerSlider() {
   const timeoutRef = useRef(null);
   const URL_IMAGE = process.env.NEXT_PUBLIC_STORAGE_URL;
 
-  const { banners , loading, error, fetchBannerHandle } = useSettingPageContext();
+  const { loading,banners , error, fetchBannerHandle } = useSettingPageContext();
   const length = banners?.length;
-
   const resetTimeout = () => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
   };
 
   useEffect(() => {
-    fetchBannerHandle(); // fetch only once
+    fetchBannerHandle();
   }, []);
-console.log(banners);
 
   useEffect(() => {
-    if (length === 0) return; // if banners not loaded yet, skip
+    if (length === 0) return; 
 
     resetTimeout();
     timeoutRef.current = setTimeout(() => {
@@ -54,13 +54,15 @@ console.log(banners);
 
   const nextSlide = () => setCurrent(current === length - 1 ? 0 : current + 1);
   const prevSlide = () => setCurrent(current === 0 ? length - 1 : current - 1);
-if (!banners || banners.length === 0) return null;
-  if (loading) return <div className="text-center py-10">Loading banners...</div>;
+
+  if (loading) return <BannerSliderSkeleton />;
+  if (!banners || banners.length === 0) return null;
   if (error) return <div className="text-center text-red-500 py-10">{error}</div>;
  
   return (
-    <div className="w-[95vw] max-w-[1500px] mx-auto p-4">
-      <div className="relative overflow-hidden rounded-3xl shadow-2xl group">
+    
+    <MarginSection>
+      <div className="relative overflow-hidden rounded-xl shadow-2xl group">
         <div className="flex transition-transform duration-700 ease-in-out" style={{ transform: `translateX(-${current * 100}%)` }}>
           {banners.map((banner) => (
             <div key={banner.id} className="min-w-full h-52 md:h-120 relative">
@@ -114,6 +116,6 @@ if (!banners || banners.length === 0) return null;
           ))}
         </div>
       </div>
-    </div>
+    </MarginSection>
   );
 }

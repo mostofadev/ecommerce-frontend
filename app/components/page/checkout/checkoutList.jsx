@@ -5,25 +5,26 @@ import QuantitySelector from "../product/single/ProductQuantitySelector";
 import CartQuantitySelector from "../product/single/CartQuantitySelector";
 import Link from "next/link";
 
-const CheckoutCart = ({ items, onRemove, onQuantityChange, onSelectionChange }) => {
+const CheckoutCart = ({
+  items,
+  onRemove,
+  onQuantityChange,
+  onSelectionChange,
+}) => {
   const URL_IMAGE = process.env.NEXT_PUBLIC_STORAGE_URL;
-console.log(items);
-
   const [selectedItems, setSelectedItems] = useState(() =>
-    items.map((item) => item.id) // ✅ all selected initially
+    items.map((item) => item.id)
   );
-
-  // ✅ If `items` prop changes (e.g., from API), reselect all
   useEffect(() => {
     setSelectedItems(items.map((item) => item.id));
   }, [items]);
 
-  // ✅ Notify parent when selection changes
   useEffect(() => {
-    const selectedData = items.filter((item) => selectedItems.includes(item.id));
+    const selectedData = items.filter((item) =>
+      selectedItems.includes(item.id)
+    );
     onSelectionChange && onSelectionChange(selectedData);
-  }, [selectedItems]); // keep minimal dependency
-
+  }, [selectedItems]);
   const handleCheckboxChange = (id) => {
     setSelectedItems((prev) =>
       prev.includes(id) ? prev.filter((itemId) => itemId !== id) : [...prev, id]
@@ -64,9 +65,8 @@ console.log(items);
             <div className="flex-1">
               <h4 className="text-sm font-semibold text-gray-800 line-clamp-1">
                 <Link href={`/product/${item.product.slug}`}>
-                {item.product.name}
+                  {item.product.name}
                 </Link>
-                
               </h4>
 
               <div className="text-xs text-gray-500 flex">
@@ -82,7 +82,8 @@ console.log(items);
                 )}
                 {item.variant?.size && (
                   <span>
-                    Size: <span className="font-medium">{item.variant?.size}</span>
+                    Size:{" "}
+                    <span className="font-medium">{item.variant?.size}</span>
                   </span>
                 )}
               </div>
@@ -98,12 +99,12 @@ console.log(items);
 
             {/* Remove Button */}
             <button
-            onClick={() => onRemove(item.id)}
-            className="text-red-500 hover:text-red-600 p-2"
-            title="Remove item"
-          >
-            <FaTrash />
-          </button>
+              onClick={() => onRemove(item.id)}
+              className="text-red-500 hover:text-red-600 p-2"
+              title="Remove item"
+            >
+              <FaTrash />
+            </button>
           </div>
         );
       })}

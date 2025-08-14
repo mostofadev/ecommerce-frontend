@@ -14,7 +14,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { showCustomToast } from "@/app/lib/showCustomToast";
 
-// ✅ Zod Schema
+
 const schema = z.object({
   name: z.string().min(1, "Brand name is required"),
   slug: z.string().min(1, "Slug is required"),
@@ -69,7 +69,7 @@ export default function UpdateBrandForm({ id }) {
 
   const name = watch("name");
 
-  // 🔄 Fetch brand data
+  //  Fetch brand data
   useEffect(() => {
     GetSingleBrand(id);
   }, [id]);
@@ -85,7 +85,7 @@ export default function UpdateBrandForm({ id }) {
     }
   }, [singleBrandGet, reset]);
 
-  // 🔠 Auto-generate slug
+  //  Auto-generate slug
   useEffect(() => {
     if (name) {
       setValue("slug", generateSlug(name), { shouldValidate: true });
@@ -117,8 +117,6 @@ export default function UpdateBrandForm({ id }) {
 
     try {
     const res =  await UpdateBrands(id, formData);
-      console.log(res);
-      
       reset();
       setPreview(null);
        if(res.success === true){

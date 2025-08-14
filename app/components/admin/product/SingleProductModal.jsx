@@ -93,7 +93,7 @@ export default function SingleProductModal({ product, onClose }) {
                 <li key={index}>
                   Color:{" "}
                   <span style={{ color: variant.color }}>{variant.color}</span>,
-                  👕 Size: {variant.size}, 📦 Qty: {variant.quantity}
+                   Size: {variant.size},  Qty: {variant.quantity}
                 </li>
               ))}
             </ul>

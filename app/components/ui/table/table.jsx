@@ -19,11 +19,8 @@ const DataTable = ({
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
   const [filteredData, setFilteredData] = useState(data);
 
-  // Apply search, sort, and pagination
   useEffect(() => {
     let result = [...data];
-
-    // Apply search
     if (searchTerm) {
       result = result.filter(item =>
         columns.some(col => {
@@ -35,7 +32,6 @@ const DataTable = ({
       );
     }
 
-    // Apply sorting
     if (sortConfig.key) {
       result.sort((a, b) => {
         const aValue = a[sortConfig.key];
@@ -52,18 +48,14 @@ const DataTable = ({
     }
 
     setFilteredData(result);
-    setCurrentPage(1); // Reset to first page when filters change
+    setCurrentPage(1);
   }, [data, searchTerm, sortConfig, columns]);
-
-  // Pagination logic
   const totalItems = filteredData.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedData = pagination 
     ? filteredData.slice(startIndex, startIndex + itemsPerPage)
     : filteredData;
-
-  // Handle sort
   const requestSort = (key) => {
     let direction = 'asc';
     if (sortConfig.key === key && sortConfig.direction === 'asc') {
@@ -71,13 +63,10 @@ const DataTable = ({
     }
     setSortConfig({ key, direction });
   };
-
-  // Handle page change
   const goToPage = (page) => {
     setCurrentPage(Math.max(1, Math.min(page, totalPages)));
   };
 
-  // Handle image error
   const handleImageError = (e) => {
     e.target.src = '/default-image.png';
     e.target.onerror = null; // Prevent infinite loop if default image also fails
@@ -85,7 +74,6 @@ const DataTable = ({
 
   return (
     <div className="bg-white rounded-lg shadow overflow-hidden">
-      {/* Search and controls */}
       {searchable && (
         <div className="p-4 border-b">
           <div className="relative max-w-xs">

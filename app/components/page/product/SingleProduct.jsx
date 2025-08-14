@@ -7,13 +7,12 @@ import { useHomeProductContext } from "@/app/context/HomePageContext";
 import { useCart } from "@/app/context/CartContext";
 import QuantitySelector from "./single/ProductQuantitySelector";
 import ProductTabs from "./single/ProductDetails";
-import RelatedProducts from "./single/RelatedProduct";
-import Loader from "../../ui/loader/pageSpinner";
 import parse from "html-react-parser";
 import AddToCart from "../../ui/button/AddToCart";
 import { useWishlist } from "@/app/context/WishlistContext";
 import { notFound, useRouter } from "next/navigation";
 import NotFound from "@/app/not-found";
+import SingleProductPageSkeleton from "../../Skeleton/Page/SingleProductPageSkeleton";
 const fallback = "/image/fallback.png";
 
 const ProductPage = ({ slug }) => {
@@ -27,8 +26,8 @@ const ProductPage = ({ slug }) => {
 
   const URL_IMAGE = process.env.NEXT_PUBLIC_STORAGE_URL;
 
-  const { handleAddToCart } = useCart();
-  const { singleProduct, loading, error, getSingleProduct } = useHomeProductContext();
+  const { loading:AddToLoading,handleAddToCart } = useCart();
+  const { singleProduct,loading, error, getSingleProduct } = useHomeProductContext();
   const router = useRouter();
   const { WishlistAdd } = useWishlist();
 
@@ -39,8 +38,6 @@ const ProductPage = ({ slug }) => {
     setSelectedVariant(null);
     setQuantity(1);
   }, [slug]);
- console.log(error);
- 
   useEffect(() => {
     if (selectedColor && selectedSize && singleProduct?.variants) {
       const match = singleProduct.variants.find(
@@ -61,7 +58,7 @@ const ProductPage = ({ slug }) => {
        WishlistAdd(singleProduct.id)
        setWishlisted(!wishlisted);
    };
-  if (loading) return <Loader />;
+  if (loading) return <SingleProductPageSkeleton />;
    if (!singleProduct) {
    return NotFound(); 
   }
@@ -72,7 +69,6 @@ const ProductPage = ({ slug }) => {
   const mainImage = images[selectedImageIndex]?.image_path || thumbnail;
 
   const hasVariants = variants?.length > 0;
-console.log('variant',hasVariants);
 
   const colors = [...new Map(variants.map((v) => [v.color, { code: v.color }])).values()];
 
@@ -95,7 +91,7 @@ console.log('variant',hasVariants);
       <div className="container mx-auto px-4 py-6 grid md:grid-cols-2 gap-6">
         {/* Left: Images */}
         <div className="space-y-4">
-          <div className="relative w-full h-80 bg-gray-100 border rounded-xl overflow-hidden">
+          <div className="relative w-full h-80 bg-gray-100 border border-gray-100 rounded-xl overflow-hidden">
             <Image
               src={`${URL_IMAGE}${mainImage}`}
               alt="Main Product"
@@ -250,6 +246,7 @@ console.log('variant',hasVariants);
               hasVariants={hasVariants}
               quantity={quantity}
               onAddToCart={addToCartHandler}
+              loading={AddToLoading}
             />
             
           </div>
@@ -264,6 +261,7 @@ console.log('variant',hasVariants);
           activeTab={activeTab}
           setActiveTab={setActiveTab}
           summary={parse(singleProduct.summary || "")}
+          
         />
       </div>
 

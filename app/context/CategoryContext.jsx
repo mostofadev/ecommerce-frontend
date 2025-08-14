@@ -1,13 +1,13 @@
-'use client';
-import { createContext, useContext, useState } from 'react';
+"use client";
+import { createContext, useContext, useState } from "react";
 import {
   AllCategory,
   fetchCreateCategory,
   deleteCategory,
   updateCategory,
-  SingleCategory
-} from '../services/CategoryServices';
-import { showCustomToast } from '../lib/showCustomToast';
+  SingleCategory,
+} from "../services/CategoryServices";
+import { showCustomToast } from "../lib/showCustomToast";
 
 const CategoryContext = createContext();
 
@@ -55,7 +55,6 @@ export const CategoryProvider = ({ children }) => {
 
       setError(null);
     } catch (err) {
-      console.log("Caught error:", err);
       setError(err.response.data.errors);
     } finally {
       setLoading(false);
@@ -70,25 +69,26 @@ export const CategoryProvider = ({ children }) => {
       setError(null);
       return res;
     } catch (err) {
-      console.log(err);
       if (err.response && err.response.data && err.response.data.errors) {
         const errorsObj = err.response.data.errors;
-        const allErrors = Object.values(errorsObj)
-          .flat()
-          .join(", ");
+        const allErrors = Object.values(errorsObj).flat().join(", ");
         setError(allErrors);
         showCustomToast({
           title: "Validation Error",
           message: allErrors,
           type: "error",
         });
-      } else if (err.response && err.response.data && err.response.data.message) {
+      } else if (
+        err.response &&
+        err.response.data &&
+        err.response.data.message
+      ) {
         setError(err.response.data.message);
       } else {
         setError("");
         showCustomToast({
           title: "Error",
-          message: 'Something went wrong',
+          message: "Something went wrong",
           type: "error",
         });
       }
@@ -105,15 +105,14 @@ export const CategoryProvider = ({ children }) => {
       setError(null);
       showCustomToast({
         title: "Category delete",
-        message: 'Category delete successfully!',
+        message: "Category delete successfully!",
         type: "success",
       });
     } catch (err) {
-      console.error(err);
-      setError('Failed to delete category');
+      setError("Failed to delete category");
       showCustomToast({
         title: "Category delete",
-        message: 'Failed to delete category!',
+        message: "Failed to delete category!",
         type: "error",
       });
     } finally {
@@ -127,28 +126,30 @@ export const CategoryProvider = ({ children }) => {
     try {
       const res = await updateCategory(id, formData);
       await getAllCategories(pagination.current_page);
-      await GetSingleCategory(id)
+      await GetSingleCategory(id);
       setError(null);
       return res;
     } catch (err) {
       if (err.response && err.response.data && err.response.data.errors) {
         const errorsObj = err.response.data.errors;
-        const allErrors = Object.values(errorsObj)
-          .flat()
-          .join(", ");
+        const allErrors = Object.values(errorsObj).flat().join(", ");
         setError(allErrors);
         showCustomToast({
           title: "Validation Error",
           message: allErrors,
           type: "error",
         });
-      } else if (err.response && err.response.data && err.response.data.message) {
+      } else if (
+        err.response &&
+        err.response.data &&
+        err.response.data.message
+      ) {
         setError(err.response.data.message);
       } else {
         setError("");
         showCustomToast({
           title: "Error",
-          message: 'Something went wrong',
+          message: "Something went wrong",
           type: "error",
         });
       }
@@ -160,13 +161,10 @@ export const CategoryProvider = ({ children }) => {
   const GetSingleCategory = async (id) => {
     try {
       const res = await SingleCategory(id);
-      console.log(res);
-      
       setSingleCategoryGet(res);
       return res;
     } catch (err) {
-      console.error(err);
-      setError('Failed to fetch category');
+      setError("Failed to fetch category");
     }
   };
 

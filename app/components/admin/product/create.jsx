@@ -101,8 +101,6 @@ export default function ProductForm() {
   const price = parseFloat(watch("price")) || 0;
   const discountType = watch("discount_type");
   const discountValue = parseFloat(watch("discount_value")) || 0;
-  console.log(discountType);
-
   useEffect(() => {
     let final = price;
     if (discountType === "percentage")
@@ -132,7 +130,6 @@ export default function ProductForm() {
         formData.append(`variants[${i}][${k}]`, vVal)
       )
     );
-    console.log(formData);
 
     try {
       const res = await createProductHandler(formData);

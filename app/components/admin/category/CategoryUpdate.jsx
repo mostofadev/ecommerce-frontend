@@ -15,7 +15,7 @@ import Loader from '../../ui/loader/pageSpinner';
 import { showCustomToast } from '@/app/lib/showCustomToast';
 import { useRouter } from 'next/navigation';
 
-// ✅ Zod Schema
+//  Zod Schema
 const schema = z.object({
   name: z.string().min(1, 'Name is required'),
   slug: z.string().min(1, 'Slug is required'),
@@ -67,15 +67,13 @@ export default function UpdateCategory({ id }) {
 
   const name = watch('name');
 
-  // 🔍 Fetch single category
+  //  Fetch single category
   useEffect(() => {
     if (id) {
       GetSingleCategory(id);
     }
   }, [id]);
-console.log(singleCategoryGet);
-
-  // 📦 Load existing data into form
+  //  Load existing data into form
   useEffect(() => {
     if (singleCategoryGet?.data) {
       const category = singleCategoryGet.data;
@@ -110,9 +108,8 @@ console.log(singleCategoryGet);
     }
   };
 
-  // 📨 Submit Handler
+  //  Submit Handler
   const onSubmit = async (data) => {
-    console.log("onsubmit",data);
     
     const formData = new FormData();
     formData.append('name', data.name);
@@ -123,8 +120,6 @@ console.log(singleCategoryGet);
     formData.append('_method', 'PUT');
     try {
     const res =  await UpdateCategoryHandler(id, formData);
-      console.log('rs cat',res);
-      
       reset();
       setPreview(null);
       if(res.data.success === true){

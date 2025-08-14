@@ -3,16 +3,13 @@ import ProductCard from "./productCard";
 import { useEffect, useState } from "react";
 import Loader from "../../ui/loader/pageSpinner";
 import PagePagination from "../../ui/pagination/pagePagination";
+import MarginSection from "../../Layout/MarginSection";
+import ProductCardSkeleton from "../../Skeleton/Home/ProductCardSkeleton";
+import ProductGridSkeleton from "../../Skeleton/Home/ProductGridSkeleton";
 
 export default function HomePage() {
-  const {
-    HomeProducts,
-    loading,
-    error,
-    pagination,
-    getAllHomeProducts,
-  } = useHomeProductContext();
-
+  const { HomeProducts,loading, error, pagination, getAllHomeProducts } =
+    useHomeProductContext();
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
@@ -25,28 +22,30 @@ export default function HomePage() {
     }
   };
 
-  if (loading) return <Loader />;
+  if (loading) return <ProductGridSkeleton />;
   if (error) return <p className="p-4 text-red-500">Error: {error}</p>;
 
   return (
-    <section className="bg-white py-3 px-4 sm:px-8 lg:px-16">
-      <h2 className="text-2xl sm:text-3xl font-bold px-4 sm:px-8 lg:px-72 text-gray-800 mb-6 text-center">
-        All Product
-      </h2>
-
-      <div className="px-2 flex justify-center lg:px-16 mx-auto">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 lg:gap-6 gap-2">
-          {HomeProducts.map((item, index) => (
-            <ProductCard key={index} product={item} />
+    <section className="bg-white py-3 ">
+      <MarginSection>
+        <h2 className={`${loading ? 'hidden' : 'block'} text-xl sm:text-2xl font-bold  text-gray-800 mb-6 text-left `}>
+          All Product
+        </h2>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
+          {HomeProducts.map((product) => (
+            <ProductCard key={product.id} product={product} />
           ))}
         </div>
-      </div>
 
-      {pagination?.last_page >= 2 && (
-        <div className="py-4 px-4 flex justify-center lg:justify-end lg:px-72">
-          <PagePagination pagination={pagination} onPageChange={handlePageChange} />
-        </div>
-      )}
+        {pagination?.last_page >= 2 && (
+          <div className="py-4  flex justify-center lg:justify-end ">
+            <PagePagination
+              pagination={pagination}
+              onPageChange={handlePageChange}
+            />
+          </div>
+        )}
+      </MarginSection>
     </section>
   );
 }

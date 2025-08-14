@@ -1,4 +1,3 @@
-// components/form/Checkbox.jsx
 import React from "react";
 
 export default function Checkbox({

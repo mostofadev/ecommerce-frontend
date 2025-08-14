@@ -1,22 +1,26 @@
 "use client";
 
 import { useHomeProductContext } from "@/app/context/HomePageContext";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import AppImage from "../../ui/Image/AppImage";
 import Link from "next/link";
+import MarginSection from "../../Layout/MarginSection";
+import CategorySliderSkeleton from "../../Skeleton/Home/CatSliderSkeleton";
+import BannerSliderSkeleton from "../../Skeleton/Home/BannerSliderSkeleton";
 
 export default function CategorySlider() {
   const scrollContainer = useRef(null);
-  const { category, fetchCategoryHandle } = useHomeProductContext();
+  const {loading, category, fetchCategoryHandle } = useHomeProductContext();
   const URL_IMAGE = process.env.NEXT_PUBLIC_STORAGE_URL;
-
   useEffect(() => {
     fetchCategoryHandle();
   }, []);
+ 
+  if(loading) return <CategorySliderSkeleton />
 
   return (
-    <section className="w-full px-4 py-3 bg-white">
-      <div className="w-full max-w-[1200px] mx-auto">
+    <section className="w-full bg-white">
+      <MarginSection>
         {/* Scrollable Category Container */}
         <div
           ref={scrollContainer}
@@ -41,7 +45,7 @@ export default function CategorySlider() {
             </Link>
           ))}
         </div>
-      </div>
+      </MarginSection>
     </section>
   );
 }

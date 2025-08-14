@@ -120,7 +120,6 @@ export default function UpdateSubCategoryForm({ id }) {
 
     try {
      const res = await updateSubCategoryHandler(id, formData);
-      console.log(res);
       
       if(res.success === true){
         showCustomToast({

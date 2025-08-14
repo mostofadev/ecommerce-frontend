@@ -8,14 +8,14 @@ const TopMenu = () => {
       <div className="flex justify-between items-center">
         {/* Left Part */}
         <div>
-          রকমারিতে স্বাগতম!
+          Welcome to Sj-mart!
         </div>
 
         {/* Right Part */}
         <div className="flex items-center space-x-8">
           <div className="flex items-center space-x-1 cursor-pointer hover:text-blue-600">
             <LocalShippingIcon fontSize="small" />
-            <span>অর্ডার ট্র্যাক করুন</span>
+            <span>Track Order</span>
           </div>
 
           <div className="flex items-center space-x-1 cursor-pointer hover:text-blue-600">

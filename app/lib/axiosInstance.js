@@ -1,16 +1,13 @@
-"use client"
+"use client";
 import axios from "axios";
 
-
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL
-console.log(BASE_URL);
-
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 const instance = axios.create({
-    baseURL: BASE_URL
-})
+  baseURL: BASE_URL,
+});
 
 instance.interceptors.request.use((config) => {
-  const token = localStorage.getItem('admin_token');
+  const token = localStorage.getItem("admin_token");
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -18,16 +15,13 @@ instance.interceptors.request.use((config) => {
 });
 
 instance.interceptors.response.use(
-  response => response,
-  error => {
+  (response) => response,
+  (error) => {
     if (error.response?.status === 401) {
-     
-      localStorage.removeItem('admin_token');
-      localStorage.removeItem('admin_user');
-     // router.push('/admin/login');
+      localStorage.removeItem("admin_token");
+      localStorage.removeItem("admin_user");
     }
 
-    
     return Promise.reject(error);
   }
 );

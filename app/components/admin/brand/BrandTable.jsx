@@ -42,10 +42,7 @@ const handlePageChange = (page) => {
   if (confirm('Are you sure to delete this category?')) {
        DeleteBrands(id)
       }
-      
    }
-  console.log(brand);
-  console.log(pagination);
     if (loading) return <Loader/>;
   if (error) return <p className="p-4 text-red-500">Error: {error}</p>;
 

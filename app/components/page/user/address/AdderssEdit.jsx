@@ -54,7 +54,6 @@ export default function AddressUpdate() {
   // Set form values when SingleAddress is loaded
   useEffect(() => {
     if (SingleAddress && Object.keys(SingleAddress)?.length > 0) {
-      console.log('Setting form values with:', SingleAddress);
       reset({
         type: SingleAddress.type || 'shipping',
         label: SingleAddress.label || '',
@@ -98,19 +97,14 @@ export default function AddressUpdate() {
 
   const onSubmit = async (data) => {
     try {
-      // Convert empty strings to null
       const cleanedData = Object.entries(data).reduce((acc, [key, val]) => {
         acc[key] = val === "" ? null : val;
         return acc;
       }, {});
-
-      console.log('Submitting data:', cleanedData);
-      
-      // API call
       await updateAddress(id, cleanedData);
       router.push("/user/address");
     } catch (err) {
-      console.error("Update failed", err);
+       const message = err?.message || "Something went wrong while updating the address.";
     }
   };
 

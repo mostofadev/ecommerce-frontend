@@ -78,7 +78,6 @@ const CustomToast = ({
         </button>
       </div>
 
-      {/* Optional progress bar */}
       <div className="h-1 w-full bg-gray-200">
         <div
           className={`h-full ${currentStyle.border.replace("border-", "bg-")}`}

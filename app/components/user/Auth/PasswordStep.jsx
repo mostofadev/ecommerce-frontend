@@ -3,11 +3,19 @@
 
 import { FiLock } from "react-icons/fi";
 
-export default function PasswordStep({ password, setPassword, handleLogin, loading, onSendOtp }) {
+export default function PasswordStep({
+  password,
+  setPassword,
+  handleLogin,
+  loading,
+  onSendOtp,
+}) {
   return (
     <div className="max-w-md mx-auto p-4 bg-white rounded-lg shadow-md space-y-4">
-      <label className="block mb-2 text-sm font-semibold text-gray-700">Password</label>
-      <div className="flex items-center border border-gray-300 rounded-md px-3 py-2 focus-within:ring-2 focus-within:ring-green-500">
+      <label className="block mb-2 text-sm font-semibold text-gray-700">
+        Password
+      </label>
+      <div className="flex items-center border border-gray-300 rounded-md px-3 py-2 focus-within:ring-2 focus-within:ring-blue-500">
         <FiLock className="text-gray-400 mr-2" size={20} />
         <input
           type="password"
@@ -21,7 +29,11 @@ export default function PasswordStep({ password, setPassword, handleLogin, loadi
         onClick={handleLogin}
         disabled={!password || loading}
         className={`w-full py-3 rounded-md text-white font-semibold
-          ${!password || loading ? "bg-green-300 cursor-not-allowed" : "bg-green-600 hover:bg-green-700"}
+          ${
+            !password || loading
+              ? "bg-blue-300 cursor-not-allowed"
+              : "bg-blue-600 hover:bg-blue-700"
+          }
         `}
       >
         {loading ? "Logging in..." : "Login"}
@@ -31,7 +43,7 @@ export default function PasswordStep({ password, setPassword, handleLogin, loadi
       <button
         onClick={onSendOtp}
         disabled={loading}
-        className="w-full py-2 mt-3 border border-green-600 rounded-md text-green-600 font-semibold hover:bg-green-50"
+        className="w-full py-2 mt-3 border border-gray-600 rounded-md text-gray-600 font-semibold hover:bg-blue-50"
       >
         Login with OTP Instead
       </button>

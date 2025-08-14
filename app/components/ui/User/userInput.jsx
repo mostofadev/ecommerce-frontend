@@ -11,11 +11,14 @@ export default function UserInput({
   onToggleShowPassword,
   errorMessage,
   showPasswordIcon: ShowIcon,
-  ...rest // Important: register() থেকে আসা props (ref, onChange, onBlur, name, etc.)
+  ...rest
 }) {
   return (
     <div className="relative">
-      <label htmlFor={name} className="block text-sm font-medium text-gray-700 mb-1">
+      <label
+        htmlFor={name}
+        className="block text-sm font-medium text-gray-700 mb-1"
+      >
         {label}
       </label>
       <div className="relative">
@@ -29,9 +32,11 @@ export default function UserInput({
           name={name}
           type={type}
           placeholder={placeholder}
-          className={`w-full pl-${Icon ? "10" : "4"} pr-${showPasswordToggle ? "10" : "4"} py-3 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-500 transition-all`}
+          className={`w-full pl-${Icon ? "10" : "4"} pr-${
+            showPasswordToggle ? "10" : "4"
+          } py-3 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-500 transition-all`}
           autoComplete="off"
-          {...rest} // This line ensures form works with react-hook-form
+          {...rest}
         />
         {showPasswordToggle && (
           <button
@@ -43,7 +48,9 @@ export default function UserInput({
           </button>
         )}
       </div>
-      {errorMessage && <p className="mt-1 text-sm text-red-600 ">{errorMessage}</p>}
+      {errorMessage && (
+        <p className="mt-1 text-sm text-red-600 ">{errorMessage}</p>
+      )}
     </div>
   );
 }

@@ -9,7 +9,7 @@ const AddToCart = ({
   selectedVariant = null,
   hasVariants = false,
   quantity = 1,
-  loading = false,
+  loading ,
   onAddToCart,
 }) => {
   const isDisabled = hasVariants && !selectedVariant;

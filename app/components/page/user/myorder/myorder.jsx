@@ -3,12 +3,13 @@
 import { Button } from "@/app/components/admin/order/Button";
 import SelectInput from "@/app/components/ui/filter/select";
 import { useState, useEffect } from "react";
-import { useOrder } from "@/app/context/OrderContext"; // ✅ Import context
+import { useOrder } from "@/app/context/OrderContext"; 
 import OrderHistory from "./OrderHistory";
+import MyOrderHistoryGridSkeleton from "@/app/components/Skeleton/Page/MyOrderHistoryGridSkeleton";
 
 export default function MyOrderCard() {
   const [status, setStatus] = useState("all");
-  const { MyOrders, myOrder, loading } = useOrder(); // ✅ use context
+  const { MyOrders, myOrder, loading } = useOrder(); 
 
   const statusOptions = [
     { value: "all", label: "All" },
@@ -22,12 +23,13 @@ export default function MyOrderCard() {
   const handleFetch = () => {
     MyOrders(status); 
   };
-console.log(myOrder);
 
-  // Optional: Load on mount
   useEffect(() => {
     MyOrders("all");
   }, []);
+  
+  if(loading) return <MyOrderHistoryGridSkeleton />
+
 if (!myOrder?.length) {
     return <p className="text-gray-400 italic">No orders found.</p>;
   }
@@ -56,7 +58,7 @@ if (!myOrder?.length) {
       </div>
 
       <div className="lg:m-6 m-2 border-b border-gray-200 pb-6">
-        <OrderHistory orders={myOrder} loading={loading} />
+        <OrderHistory orders={myOrder}  />
       </div>
     </>
   );

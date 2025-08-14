@@ -24,7 +24,6 @@ export const BannerProvider = ({ children }) => {
     per_page: 10,
   });
 
-  // 🔄 Get All Banners with Pagination Handling
   const getAllBannersHandler = async (page = 1) => {
     setLoading(true);
     try {
@@ -34,7 +33,6 @@ export const BannerProvider = ({ children }) => {
       let paginationData = {};
 
       if (Array.isArray(response.data)) {
-        // Non-paginated fallback
         bannerData = response.data;
         paginationData = {
           current_page: 1,
@@ -43,7 +41,6 @@ export const BannerProvider = ({ children }) => {
           total: bannerData.length,
         };
       } else if (response.data && Array.isArray(response.data.data)) {
-        // Paginated
         bannerData = response.data.data;
         paginationData = response.data;
       }
@@ -55,17 +52,14 @@ export const BannerProvider = ({ children }) => {
         total: paginationData.total || bannerData.length,
         per_page: paginationData.per_page || 10,
       });
-
       setError(null);
     } catch (err) {
-      console.error(err);
       setError("Failed to load banners");
     } finally {
       setLoading(false);
     }
   };
 
-  // ➕ Create Banner
   const createBannerHandler = async (formData) => {
     setLoading(true);
     try {
@@ -74,37 +68,34 @@ export const BannerProvider = ({ children }) => {
       setError(null);
       return res;
     } catch (err) {
-       console.log(err);
-
-    if (err.response && err.response.data && err.response.data.errors) {
-      
-      const errorsObj = err.response.data.errors;
-      const allErrors = Object.values(errorsObj)
-        .flat()
-        .join(", ");
-      setError(allErrors);
-      showCustomToast({
-        title: "Validation Error",
-        message: allErrors,
-        type: "error",
-      });
-    } else if (err.response && err.response.data && err.response.data.message) {
-   
-      setError(err.response.data.message);
-    } else {
-      setError("Something went wrong");
-      showCustomToast({
-        title: "Error",
-        message: 'Something went wrong',
-        type: "error",
-      });
-    }
+      if (err.response && err.response.data && err.response.data.errors) {
+        const errorsObj = err.response.data.errors;
+        const allErrors = Object.values(errorsObj).flat().join(", ");
+        setError(allErrors);
+        showCustomToast({
+          title: "Validation Error",
+          message: allErrors,
+          type: "error",
+        });
+      } else if (
+        err.response &&
+        err.response.data &&
+        err.response.data.message
+      ) {
+        setError(err.response.data.message);
+      } else {
+        setError("Something went wrong");
+        showCustomToast({
+          title: "Error",
+          message: "Something went wrong",
+          type: "error",
+        });
+      }
     } finally {
       setLoading(false);
     }
   };
 
-  // ❌ Delete Banner
   const deleteBannerHandler = async (id) => {
     setLoading(true);
     try {
@@ -117,62 +108,57 @@ export const BannerProvider = ({ children }) => {
       });
       setError(null);
     } catch (err) {
-      console.error(err);
       setError("Failed to delete banner");
     } finally {
       setLoading(false);
     }
   };
-const getSingleBannerHandler = async (id) => {
-  try {
-    const res = await getSingleBanner(id); // your axios call
-    return res; // returns full axios response
-  } catch (err) {
-    console.error(err);
-  }
-};
-  // 🔁 Update Banner
+  const getSingleBannerHandler = async (id) => {
+    try {
+      const res = await getSingleBanner(id);
+      return res;
+    } catch (err) {
+      setError("Failed to delete banner");
+    }
+  };
+
   const updateBannerHandler = async (id, formData) => {
     setLoading(true);
     try {
       const res = await updateBanner(id, formData);
       await getAllBannersHandler(pagination.current_page);
-      await getSingleBannerHandler(id)
+      await getSingleBannerHandler(id);
       setError(null);
-      
+
       return res;
     } catch (err) {
-       console.log(err);
-
-    if (err.response && err.response.data && err.response.data.errors) {
-      
-      const errorsObj = err.response.data.errors;
-      const allErrors = Object.values(errorsObj)
-        .flat()
-        .join(", ");
-      setError(allErrors);
-      showCustomToast({
-        title: "Validation Error",
-        message: allErrors,
-        type: "error",
-      });
-    } else if (err.response && err.response.data && err.response.data.message) {
-   
-      setError(err.response.data.message);
-    } else {
-      setError("Something went wrong");
-      showCustomToast({
-        title: "Error",
-        message: 'Something went wrong',
-        type: "error",
-      });
-    }
+      if (err.response && err.response.data && err.response.data.errors) {
+        const errorsObj = err.response.data.errors;
+        const allErrors = Object.values(errorsObj).flat().join(", ");
+        setError(allErrors);
+        showCustomToast({
+          title: "Validation Error",
+          message: allErrors,
+          type: "error",
+        });
+      } else if (
+        err.response &&
+        err.response.data &&
+        err.response.data.message
+      ) {
+        setError(err.response.data.message);
+      } else {
+        setError("Something went wrong");
+        showCustomToast({
+          title: "Error",
+          message: "Something went wrong",
+          type: "error",
+        });
+      }
     } finally {
       setLoading(false);
     }
   };
-
-  
 
   return (
     <BannerContext.Provider
@@ -194,5 +180,4 @@ const getSingleBannerHandler = async (id) => {
   );
 };
 
-// ✅ Custom hook
 export const useBannerContext = () => useContext(BannerContext);

@@ -48,7 +48,7 @@ export default function ProductTable() {
     try {
       await deleteProductHandler(id);
     } catch (err) {
-      console.error("Delete Error", err);
+      
     }
   };
 

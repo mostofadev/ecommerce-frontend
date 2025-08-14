@@ -41,7 +41,7 @@ export default function BannerForm() {
 const handleImageChange = (e) => {
   const files = e.target.files;
   if (files && files?.length > 0) {
-    setValue("image", files, { shouldValidate: true }); // ✅ FileList পাঠাও
+    setValue("image", files, { shouldValidate: true }); 
   } else {
     setValue("image", null);
   }
@@ -70,7 +70,6 @@ const handleImageChange = (e) => {
 
     try {
       const res = await createBannerHandler(formData);
-      console.log("Banner created:", res);
       if(res.status === true){
         showCustomToast({
           title: "Banner created",
@@ -79,7 +78,6 @@ const handleImageChange = (e) => {
         });
         router.push("/admin/setting/banner");
       }
-      // Optionally reset form or show success message here
     } catch (err) {
       
     }

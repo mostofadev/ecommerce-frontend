@@ -18,14 +18,9 @@ export const WishlistProvider = ({ children }) => {
     total: 0,
     per_page: 10,
   });
-
-  // Token check করার জন্য
   const token = typeof window !== "undefined" ? localStorage.getItem("user_token") : null;
-
-  // Wishlist লোড করার ফাংশন
   const WishlistIndex = async (page = 1) => {
     if (!token) {
-      // যদি token না থাকে, তাহলে API কল না করো
       setWishlist([]);
       setPagination({
         current_page: 1,
@@ -35,15 +30,12 @@ export const WishlistProvider = ({ children }) => {
       });
       return;
     }
-
     setLoading(true);
     setError(null);
-
     try {
       const response = await fetchWishlistIndex(page);
       let WishlistData = [];
       let paginationData = {};
-
       if (Array.isArray(response.wishlist)) {
         WishlistData = response.wishlist;
         paginationData = {
@@ -56,7 +48,6 @@ export const WishlistProvider = ({ children }) => {
         WishlistData = response.wishlist.data;
         paginationData = response.wishlist;
       }
-
       setWishlist(WishlistData);
       setPagination({
         current_page: paginationData.current_page || 1,
@@ -65,16 +56,15 @@ export const WishlistProvider = ({ children }) => {
         per_page: paginationData.per_page || 10,
       });
     } catch (err) {
-      console.error(err);
       setError(err?.message || "Failed to load wishlist");
     } finally {
       setLoading(false);
     }
   };
 
-  // Wishlist Add ফাংশনে token চেক
+  // Wishlist Add 
   const WishlistAdd = async (data) => {
-    if (!token) return; // token না থাকলে কিছু করবে না
+    if (!token) return; 
 
     setLoading(true);
     setError(null);
@@ -87,17 +77,15 @@ export const WishlistProvider = ({ children }) => {
         type: "success",
       });
     } catch (err) {
-      console.error(err);
       setError(err?.message || "Failed to add to wishlist");
     } finally {
       setLoading(false);
     }
   };
 
-  // Wishlist Remove ফাংশনে token চেক
+  // Wishlist Remove 
   const WishlistRemove = async (id) => {
-    if (!token) return; // token না থাকলে কিছু করবে না
-
+    if (!token) return;
     setLoading(true);
     setError(null);
     try {
@@ -109,19 +97,15 @@ export const WishlistProvider = ({ children }) => {
         type: "success",
       });
     } catch (err) {
-      console.error(err);
       setError(err?.message || "Failed to remove from wishlist");
     } finally {
       setLoading(false);
     }
   };
-
-  // Component মাউন্ট হলে Wishlist লোড করো, যদি token থাকে
   useEffect(() => {
     if (token) {
       WishlistIndex();
     } else {
-      // token না থাকলে পরিষ্কার করে রাখো
       setWishlist([]);
       setPagination({
         current_page: 1,

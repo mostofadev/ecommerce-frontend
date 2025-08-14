@@ -1,6 +1,12 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState, useCallback } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+} from "react";
 import { OrderAdminService } from "@/app/services/OrderAdminService";
 import { toast } from "react-hot-toast";
 import { showCustomToast } from "../lib/showCustomToast";
@@ -16,7 +22,6 @@ export function OrderAdminProvider({ children }) {
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // ✅ pagination state
   const [pagination, setPagination] = useState({
     current_page: 1,
     last_page: 1,
@@ -24,29 +29,30 @@ export function OrderAdminProvider({ children }) {
     per_page: 10,
   });
 
-  // ✅ Fetch all orders with pagination, search, status
   const fetchOrders = useCallback(
     async (page = 1) => {
       setLoading(true);
       try {
-        const res = await OrderAdminService.getAllOrders({ search, status, page });
-
-        // Laravel style pagination response
+        const res = await OrderAdminService.getAllOrders({
+          search,
+          status,
+          page,
+        });
         const orderData = res.data || [];
         const meta = res;
-
         setOrders(orderData);
-
         setPagination({
           current_page: meta.current_page || 1,
           last_page: meta.last_page || 1,
           total: meta.total || orderData.length,
           per_page: meta.per_page || 10,
         });
-
       } catch (err) {
-        console.error("❌ Failed to fetch orders:", err);
-        toast.error("Failed to fetch orders");
+        showCustomToast({
+          title: "Failed to fetch orders",
+          message: "Failed to fetch orders",
+          type: "error",
+        });
       } finally {
         setLoading(false);
       }
@@ -54,13 +60,11 @@ export function OrderAdminProvider({ children }) {
     [search, status]
   );
 
-  // ✅ Fetch single order
   const fetchSingleOrder = async (id) => {
     try {
       const res = await OrderAdminService.getSingleOrder(id);
       setSelectedOrder(res);
     } catch (err) {
-     
       showCustomToast({
         title: "Order Details",
         message: "Failed to fetch order details",
@@ -69,17 +73,16 @@ export function OrderAdminProvider({ children }) {
     }
   };
 
-  // ✅ Delete order
   const deleteOrder = async (id) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this order?");
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this order?"
+    );
     if (!confirmDelete) return;
-
     try {
       await OrderAdminService.deleteOrder(id);
       toast.success("Order deleted successfully");
       fetchOrders(pagination.current_page);
     } catch (err) {
-     
       showCustomToast({
         title: "Order Delete",
         message: "Failed to delete order",
@@ -88,7 +91,6 @@ export function OrderAdminProvider({ children }) {
     }
   };
 
-  // ✅ Update order status
   const updateOrderStatus = async (id, newStatus) => {
     try {
       await OrderAdminService.updateStatus(id, newStatus);
@@ -107,11 +109,10 @@ export function OrderAdminProvider({ children }) {
     }
   };
 
-  // ✅ Optional: Create a new order
   const createOrder = async (formData) => {
     try {
       const res = await OrderAdminService.createOrder(formData);
-      
+
       showCustomToast({
         title: "Order Created",
         message: "Order created successfully.",
@@ -125,21 +126,19 @@ export function OrderAdminProvider({ children }) {
         message: "Failed to create order.",
         type: "error",
       });
-      created
+      created;
       throw err;
     }
   };
-
-  // useEffect(() => {
-  //   fetchOrders(); // Initial fetch (page 1)
-  // }, [fetchOrders]);
-useEffect(() => {
-  const token = typeof window !== "undefined" ? localStorage.getItem("admin_token") : null;
-
-  if (token) {
-    fetchOrders(); 
-  }
-}, [fetchOrders]);
+  useEffect(() => {
+    const token =
+      typeof window !== "undefined"
+        ? localStorage.getItem("admin_token")
+        : null;
+    if (token) {
+      fetchOrders();
+    }
+  }, [fetchOrders]);
   return (
     <OrderAdminContext.Provider
       value={{

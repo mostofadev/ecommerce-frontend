@@ -22,13 +22,9 @@ export default function LoginForm() {
 
   } = useForm();
   const onSubmit =async (data) => {
-   console.log(data.email);
-   console.log(data.password);
    try {
      await login(data.email, data.password);
    }catch (error) {
-    console.log(error);
-    
     setErrorMessage(error.message);
   }
    
@@ -79,7 +75,7 @@ export default function LoginForm() {
             {errors.password && <FormError message={errors.password?.message} />}
           </div>
 
-          <FormButton type="submit" loading={loading}>
+          <FormButton ClassName="w-full" type="submit" loading={loading} IsValid={true}>
                   Create
           </FormButton>
           </FormWrapper>

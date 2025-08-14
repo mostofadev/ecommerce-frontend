@@ -1,23 +1,23 @@
-'use client';
+"use client";
 
-import { useCart } from '@/app/context/CartContext';
-import CheckoutCart from './checkoutList';
-import { useEffect, useState } from 'react';
-import { usePromoCode } from '@/app/context/PromoCodeContext';
-import ShippingAddressWithModal from './ShippingAddressWithModal';
-import { useAddress } from '@/app/context/AddressContext';
-import { useOrder } from '@/app/context/OrderContext';
-import { toast } from 'react-toastify';
-import { useRouter } from 'next/navigation';
-import FormButton from '../../ui/button/FormBtn';
+import { useCart } from "@/app/context/CartContext";
+import CheckoutCart from "./checkoutList";
+import { useEffect, useState } from "react";
+import { usePromoCode } from "@/app/context/PromoCodeContext";
+import ShippingAddressWithModal from "./ShippingAddressWithModal";
+import { useAddress } from "@/app/context/AddressContext";
+import { useOrder } from "@/app/context/OrderContext";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+import FormButton from "../../ui/button/FormBtn";
 
 export default function CheckoutPage() {
   const { items, handleRemoveFromCart, handleUpdateQuantity } = useCart();
   const { promoCode, discountPercent, error, applyPromoCode } = usePromoCode();
   const { addresses, loadAddresses } = useAddress();
-  const { loading,handleOrderSubmit, setOrderInfo } = useOrder();
+  const { loading, handleOrderSubmit, setOrderInfo } = useOrder();
   const [selectedItems, setSelectedItems] = useState([]);
-  const [inputCode, setInputCode] = useState('');
+  const [inputCode, setInputCode] = useState("");
   const [shippingCost, setShippingCost] = useState(60);
   const [selectedShippingId, setSelectedShippingId] = useState(null);
   const [selectedBillingId, setSelectedBillingId] = useState(null);
@@ -30,8 +30,6 @@ export default function CheckoutPage() {
   const handleApplyPromo = async () => {
     await applyPromoCode(inputCode);
   };
-console.log(addresses);
-
   const handleSelectionChange = (items) => {
     setSelectedItems(items);
   };
@@ -46,7 +44,7 @@ console.log(addresses);
 
   const handleCheckout = async () => {
     if (!selectedShippingId) {
-      toast.error('Please select a shipping address.');
+      toast.error("Please select a shipping address.");
       return;
     }
 
@@ -55,13 +53,13 @@ console.log(addresses);
       discount_amount: discountAmount,
       shipping_cost: shippingCost,
       total: total,
-      payment_method: 'cod',
-      customer_note: 'Deliver between 10AM-1PM',
+      payment_method: "cod",
+      customer_note: "Deliver between 10AM-1PM",
       shipping_id: selectedShippingId,
       billing_id: selectedBillingId,
       coupon_id: promoCode?.id || null,
       items: selectedItems.map((item) => ({
-        cart_id:item.id,
+        cart_id: item.id,
         product_id: item.product.id,
         product_name: item.product.name,
         sku: item.product.sku,
@@ -70,20 +68,12 @@ console.log(addresses);
         variant: item.variant,
       })),
     };
-
     const res = await handleOrderSubmit(orderData);
-    console.log(res);
-
-    
-   
     if (res?.data) {
       const fullOrder = { ...orderData, order_id: res.data };
-
-      // ✅ এই লাইনটাই localStorage তে সেভ করে
-      localStorage.setItem('latest_order', JSON.stringify(fullOrder));
-
-      setOrderInfo(fullOrder); // context এও সেট করো
-      router.push(`/payment?order_id=${res.data}`); // পেমেন্ট পেজে যাও
+      localStorage.setItem("latest_order", JSON.stringify(fullOrder));
+      setOrderInfo(fullOrder);
+      router.push(`/payment?order_id=${res.data}`);
     }
   };
 
@@ -115,14 +105,18 @@ console.log(addresses);
               onChange={(e) => setInputCode(e.target.value)}
               disabled={discountPercent > 0}
               className={`flex-1 border rounded px-2 py-1 text-sm ${
-                discountPercent > 0 ? 'bg-gray-100 cursor-not-allowed' : 'border-gray-300'
+                discountPercent > 0
+                  ? "bg-gray-100 cursor-not-allowed"
+                  : "border-gray-300"
               }`}
             />
             <button
               onClick={handleApplyPromo}
               disabled={discountPercent > 0}
               className={`px-3 py-1 rounded text-sm text-white ${
-                discountPercent > 0 ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
+                discountPercent > 0
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-blue-600 hover:bg-blue-700"
               }`}
             >
               Apply
@@ -133,9 +127,7 @@ console.log(addresses);
               {discountPercent}% discount applied!
             </p>
           )}
-          {error && (
-            <p className="text-red-500 text-sm mt-2">{error}</p>
-          )}
+          {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
         </div>
 
         <div className="bg-white shadow rounded-lg p-4 space-y-2">
@@ -157,20 +149,14 @@ console.log(addresses);
             <span>Total:</span>
             <span>৳{total.toFixed(2)}</span>
           </div>
-          {/* <button
-            onClick={handleCheckout}
-            className="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded mt-4 text-sm"
-          >
-            Proceed to Checkout
-          </button> */}
+
           <FormButton
             type="submit"
             loading={loading}
-            // disabled={!isValid || isSubmitting}
             IsValid={true}
             onClick={handleCheckout}
           >
-            {loading ? '' : 'Proceed to Checkout'}
+            {loading ? "" : "Proceed to Checkout"}
           </FormButton>
         </div>
       </div>

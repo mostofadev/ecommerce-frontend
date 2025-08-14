@@ -5,10 +5,9 @@ import { useHomeProductContext } from "@/app/context/HomePageContext";
 import ProductCard from "./productCard";
 import Loader from "../../ui/loader/pageSpinner";
 import PagePagination from "../../ui/pagination/pagePagination";
+import ProductGridSkeleton from "../../Skeleton/Home/ProductGridSkeleton";
 
 export default function CategoryProduct({ slug }) {
-  console.log(slug);
-  
   const {
     loading,
     error,
@@ -37,7 +36,7 @@ function formatSlug(slug) {
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
 }
-  if (loading) return <Loader />;
+  if (loading) return <ProductGridSkeleton />;
   if (error) return <p className="p-4 text-red-500">Error: {error}</p>;
 
   return (

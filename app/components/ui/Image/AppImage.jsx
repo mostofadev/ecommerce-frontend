@@ -11,7 +11,7 @@ export default function AppImage({
   fallback = "/fallback.png",
   ClassName = "",
   ImageClass="",
-  rounded = "full", // full for circular, or "sm", "md", etc.
+  rounded = "full",
 }) {
   const [imgSrc, setImgSrc] = useState(src);
 

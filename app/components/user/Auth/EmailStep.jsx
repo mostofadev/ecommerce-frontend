@@ -3,7 +3,7 @@ import { FiMail } from "react-icons/fi";
 
 export default function EmailStep({ email, setEmail, handleNext, loading }) {
   return (
-    <div className="max-w-md mx-auto p-4 bg-white rounded-lg shadow-md">
+    <div className="max-w-md mx-auto p-4 bg-white rounded-lg ">
       <label className="block mb-2 text-sm font-semibold text-gray-700">Email Address</label>
       <div className="flex items-center border border-gray-300 rounded-md px-3 py-2 focus-within:ring-2 focus-within:ring-blue-500">
         <FiMail className="text-gray-400 mr-2" size={20} />

@@ -20,7 +20,7 @@ const ProtectedRouteAdmin = ({ children }) => {
     }
   }, [router]);
 
-  if (isChecking) return null; // অথবা loading spinner দেখাতে পারো
+  if (isChecking) return null; 
 
   return hasToken ? children : null;
 };

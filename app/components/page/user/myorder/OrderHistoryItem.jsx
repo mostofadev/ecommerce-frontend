@@ -4,10 +4,7 @@ import React from 'react';
 
 export default function OrderHistoryItem({ product }) {
   const URL_IMAGE = process.env.NEXT_PUBLIC_STORAGE_URL;
- console.log('slug error',product);
- 
   if (!product) return null;
- 
   return (
     <Link
       href={`/product/${product.product?.slug}`}

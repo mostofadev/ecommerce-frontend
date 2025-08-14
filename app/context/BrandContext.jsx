@@ -1,19 +1,19 @@
-'use client';
-import { createContext, useContext, useState } from 'react';
+"use client";
+import { createContext, useContext, useState } from "react";
 import {
   AllBrand,
   createBrand,
   deleteBrand,
   updateBrand,
   SingleBrand,
-} from '../services/brandService';
-import { showCustomToast } from '../lib/showCustomToast';
+} from "../services/brandService";
+import { showCustomToast } from "../lib/showCustomToast";
 
 const BrandContext = createContext();
 
 export const BrandProvider = ({ children }) => {
   const [brand, setBrand] = useState([]);
-   const [singleBrandGet,setSingleBrandGet] = useState([]);
+  const [singleBrandGet, setSingleBrandGet] = useState([]);
   const [loading, setLoading] = useState(false);
   const [pagination, setPagination] = useState({
     current_page: 1,
@@ -23,7 +23,6 @@ export const BrandProvider = ({ children }) => {
   });
   const [error, setError] = useState(null);
 
-  // 🔄 Get All Brands with Pagination Handling
   const getAllBrands = async (page = 1) => {
     setLoading(true);
     try {
@@ -33,7 +32,6 @@ export const BrandProvider = ({ children }) => {
       let paginationData = {};
 
       if (Array.isArray(response.data)) {
-        // Non-paginated fallback
         brandData = response.data;
         paginationData = {
           current_page: 1,
@@ -42,7 +40,6 @@ export const BrandProvider = ({ children }) => {
           total: brandData.length,
         };
       } else if (response.data && Array.isArray(response.data.data)) {
-        // Paginated response
         brandData = response.data.data;
         paginationData = response.data;
       }
@@ -57,14 +54,12 @@ export const BrandProvider = ({ children }) => {
 
       setError(null);
     } catch (err) {
-      setError('Failed to load brands');
-      console.error(err);
+      setError("Failed to load brands");
     } finally {
       setLoading(false);
     }
   };
 
-  // ➕ Create Brand
   const CreateBrands = async (formData) => {
     setLoading(true);
     try {
@@ -73,25 +68,26 @@ export const BrandProvider = ({ children }) => {
       setError(null);
       return res;
     } catch (err) {
-        console.log(err);
       if (err.response && err.response.data && err.response.data.errors) {
         const errorsObj = err.response.data.errors;
-        const allErrors = Object.values(errorsObj)
-          .flat()
-          .join(", ");
+        const allErrors = Object.values(errorsObj).flat().join(", ");
         setError(allErrors);
         showCustomToast({
           title: "Validation Error",
           message: allErrors,
           type: "error",
         });
-      } else if (err.response && err.response.data && err.response.data.message) {
+      } else if (
+        err.response &&
+        err.response.data &&
+        err.response.data.message
+      ) {
         setError(err.response.data.message);
       } else {
         setError("");
         showCustomToast({
           title: "Error",
-          message: 'Something went wrong',
+          message: "Something went wrong",
           type: "error",
         });
       }
@@ -108,29 +104,27 @@ export const BrandProvider = ({ children }) => {
       setError(null);
       showCustomToast({
         title: "Brand delete",
-        message: 'Brand delete successfully!',
+        message: "Brand delete successfully!",
         type: "success",
       });
     } catch (err) {
-      console.error(err);
-      setError('Failed to delete brand');
+      setError("Failed to delete brand");
       showCustomToast({
         title: "brand delete",
-        message: 'Failed to delete brand!',
+        message: "Failed to delete brand!",
         type: "error",
       });
     } finally {
       setLoading(false);
     }
   };
-const GetSingleBrand = async (id) => {
+  const GetSingleBrand = async (id) => {
     try {
       const data = await SingleBrand(id);
-      setSingleBrandGet(data)
+      setSingleBrandGet(data);
       return data;
     } catch (err) {
-      console.error(err);
-      setError('Failed to fetch brand');
+      setError("Failed to fetch brand");
     }
   };
   const UpdateBrands = async (id, formData) => {
@@ -138,28 +132,30 @@ const GetSingleBrand = async (id) => {
     try {
       const res = await updateBrand(id, formData);
       await getAllBrands(pagination.current_page);
-      await GetSingleBrand(id)
+      await GetSingleBrand(id);
       setError(null);
       return res;
     } catch (err) {
       if (err.response && err.response.data && err.response.data.errors) {
         const errorsObj = err.response.data.errors;
-        const allErrors = Object.values(errorsObj)
-          .flat()
-          .join(", ");
+        const allErrors = Object.values(errorsObj).flat().join(", ");
         setError(allErrors);
         showCustomToast({
           title: "Validation Error",
           message: allErrors,
           type: "error",
         });
-      } else if (err.response && err.response.data && err.response.data.message) {
+      } else if (
+        err.response &&
+        err.response.data &&
+        err.response.data.message
+      ) {
         setError(err.response.data.message);
       } else {
         setError("");
         showCustomToast({
           title: "Error",
-          message: 'Something went wrong',
+          message: "Something went wrong",
           type: "error",
         });
       }
@@ -167,9 +163,6 @@ const GetSingleBrand = async (id) => {
       setLoading(false);
     }
   };
-
-  
-  
 
   return (
     <BrandContext.Provider
