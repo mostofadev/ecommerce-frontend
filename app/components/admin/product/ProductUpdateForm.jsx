@@ -19,6 +19,8 @@ import { useSubCategoryContext } from "../../../context/SubCategoryContext";
 import { useProductContext } from "@/app/context/ProductContext";
 import { productSchemaUpdate } from "@/schemas/productSchemasUpdate";
 import { showCustomToast } from "@/app/lib/showCustomToast";
+import ProductImages from "./ProductImages";
+import ProductImagesUpdate from "./ProductImagesUpdate";
 
 export default function ProductUpdateForm({ productId }) {
   const router = useRouter();
@@ -88,8 +90,7 @@ export default function ProductUpdateForm({ productId }) {
     getAllBrand();
     getSingleProduct(productId);
   }, [productId]);
-  useEffect(() => {
-  }, [watch(), errors, isValid]);
+  useEffect(() => {}, [watch(), errors, isValid]);
   useEffect(() => {
     if (singleProduct) {
       reset({
@@ -106,6 +107,7 @@ export default function ProductUpdateForm({ productId }) {
       setExistingImageUrls(singleProduct.image_urls || []);
     }
   }, [singleProduct, reset]);
+  // console.log("ima", singleProduct.images);
 
   useEffect(() => {
     const name = watch("name");
@@ -334,7 +336,7 @@ export default function ProductUpdateForm({ productId }) {
           />
         )}
 
-        <FileInput
+        {/* <FileInput
           label="Images"
           name="images"
           accept="image/*"
@@ -346,7 +348,13 @@ export default function ProductUpdateForm({ productId }) {
           {existingImageUrls.map((url, i) => (
             <img key={i} src={url} className="w-24 h-24" />
           ))}
-        </div>
+        </div> */}
+
+        <ProductImagesUpdate
+          existingImages={singleProduct?.images.map((img) => img.image) || []}
+        />
+
+
 
         <VariantMatrix name="variants" />
 

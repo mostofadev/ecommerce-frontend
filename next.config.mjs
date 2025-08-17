@@ -9,7 +9,7 @@ const nextConfig = {
             pathname: '/storage/**',
           },
         ],
-          domains: ['images.unsplash.com'],
+          domains: ['smart.mostofadev.cloud'],
       },
 };
 

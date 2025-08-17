@@ -3,13 +3,13 @@
 import { Button } from "@/app/components/admin/order/Button";
 import SelectInput from "@/app/components/ui/filter/select";
 import { useState, useEffect } from "react";
-import { useOrder } from "@/app/context/OrderContext"; 
+import { useOrder } from "@/app/context/OrderContext";
 import OrderHistory from "./OrderHistory";
 import MyOrderHistoryGridSkeleton from "@/app/components/Skeleton/Page/MyOrderHistoryGridSkeleton";
 
 export default function MyOrderCard() {
   const [status, setStatus] = useState("all");
-  const { MyOrders, myOrder, loading } = useOrder(); 
+  const { MyOrders, myOrder, loading } = useOrder();
 
   const statusOptions = [
     { value: "all", label: "All" },
@@ -21,18 +21,18 @@ export default function MyOrderCard() {
   ];
 
   const handleFetch = () => {
-    MyOrders(status); 
+    MyOrders(status);
   };
 
   useEffect(() => {
     MyOrders("all");
   }, []);
-  
-  if(loading) return <MyOrderHistoryGridSkeleton />
 
-if (!myOrder?.length) {
-    return <p className="text-gray-400 italic">No orders found.</p>;
-  }
+  if (loading) return <MyOrderHistoryGridSkeleton />;
+  // if (!myOrder?.length) {
+  //     return ;
+  //   }
+
   return (
     <>
       <div className="lg:m-6 m-2 flex lg:justify-between lg:flex-row flex-col border-b border-gray-200 pb-6">
@@ -58,7 +58,11 @@ if (!myOrder?.length) {
       </div>
 
       <div className="lg:m-6 m-2 border-b border-gray-200 pb-6">
-        <OrderHistory orders={myOrder}  />
+        {!myOrder || myOrder.length === 0 ? (
+          <p className="text-gray-400 italic">No orders found.</p>
+        ) : (
+          <OrderHistory orders={myOrder} />
+        )}
       </div>
     </>
   );

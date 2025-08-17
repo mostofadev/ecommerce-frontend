@@ -21,7 +21,7 @@ const urbanist = Urbanist({
 });
 
 export const metadata = {
-  title: 'Your App',
+  title: 'Sj-mart',
   description: 'Best E-commerce UI',
 };
 
