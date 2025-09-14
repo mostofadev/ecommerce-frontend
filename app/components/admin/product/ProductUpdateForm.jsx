@@ -110,10 +110,18 @@ export default function ProductUpdateForm({ productId }) {
   // console.log("ima", singleProduct.images);
 
   useEffect(() => {
-    const name = watch("name");
-    const slug = name ? name.toLowerCase().replace(/\s+/g, "-") : "";
-    setValue("slug", slug);
-  }, [watch("name")]);
+  const name = watch("name");
+  const slug = name
+    ? encodeURIComponent(
+        name
+          .toLowerCase()
+          .trim()
+          .replace(/\s+/g, "-")        // spaces → "-"
+          .replace(/[^a-z0-9\-]/g, "") // unsafe char remove
+      )
+    : "";
+  setValue("slug", slug);
+}, [watch("name")]);
 
   const selectedCategoryId = watch("category_id");
   const filteredSubCategories = formSubCategories.filter(
