@@ -92,11 +92,18 @@ export default function ProductForm() {
 
   // Auto-generate slug
   useEffect(() => {
-    const nm = watch("name");
-    const slug = nm ? nm.toLowerCase().replace(/\s+/g, "-") : "";
-    setValue("slug", slug);
-  }, [watch("name")]);
-
+  const nm = watch("name");
+  const slug = nm
+    ? encodeURIComponent(
+        nm
+          .toLowerCase()
+          .trim()
+          .replace(/\s+/g, "-")      
+          .replace(/[^a-z0-9\-]/g, "") 
+      )
+    : "";
+  setValue("slug", slug);
+}, [watch("name")]);
   // Calculate final price
   const price = parseFloat(watch("price")) || 0;
   const discountType = watch("discount_type");
