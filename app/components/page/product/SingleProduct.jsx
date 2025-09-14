@@ -91,13 +91,13 @@ const ProductPage = ({ slug }) => {
       <div className="container mx-auto px-4 py-6 grid md:grid-cols-2 gap-6">
         {/* Left: Images */}
         <div className="space-y-4">
-          <div className="relative w-full h-80 bg-gray-100 border border-gray-100 rounded-xl overflow-hidden">
+          <div className="relative bg-gray-100 border border-gray-200 rounded-xl overflow-hidden w-[330px] h-[300px] lg:w-full sm:h-full md:w-full ">
             <Image
               src={`${URL_IMAGE}${mainImage}`}
               alt="Main Product"
               fill
-              className="object-contain"
-              sizes="(max-width: 768px) 100vw, 50vw"
+              className="object-contain w-full h-full"
+             // sizes="(max-width: 768px) 100vw, 50vw"
               unoptimized
               onError={(e) => {
                 e.currentTarget.src = fallback;
@@ -105,12 +105,12 @@ const ProductPage = ({ slug }) => {
             />
           </div>
 
-          <div className="flex gap-2">
+          <div className="grid grid-cols-6 sm:grid-cols-3 md:grid-cols-10  gap-2">
             {images.map((img, idx) => (
               <button
                 key={idx}
                 onClick={() => setSelectedImageIndex(idx)}
-                className={`relative w-14 h-14 border-2 rounded-md overflow-hidden ${
+                className={`relative w-14 h-14 border-2 rounded-md overflow-hidden  lg:my-0 my-2 ${
                   selectedImageIndex === idx ? "border-blue-500" : "border-gray-300"
                 }`}
                 type="button"
@@ -137,7 +137,7 @@ const ProductPage = ({ slug }) => {
         </div>
 
         {/* Right: Info */}
-        <div className="space-y-4">
+        <div className="space-y-4 my-12">
           <div className="flex justify-between items-start">
             <div>
               <h1 className="text-3xl font-semibold text-gray-800">{singleProduct.name}</h1>
@@ -254,7 +254,7 @@ const ProductPage = ({ slug }) => {
       </div>
 
       {/* Tabs */}
-      <div className="container mx-auto px-4 py-6">
+      <div className="container mx-auto px-4 py-6 my-12 lg:my-32">
         <ProductTabs
           details={singleProduct.summary || []}
           shipping={singleProduct.shipping || "Free shipping on orders over ৳50."}
